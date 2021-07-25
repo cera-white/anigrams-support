@@ -1,0 +1,51 @@
+﻿@model Microsoft.AspNet.Identity.EntityFramework.IdentityRole
+
+@{
+    ViewBag.Title = "Role Details";
+}
+
+<div class="pro-head">
+    <div class="pull-right" style="margin-right: 1%">
+        <br />
+        <a href="@Url.Action("Edit", "RolesAdmin", new { id = Model.Id })" class="btn btn-primary">Edit Role</a>
+    </div>
+    <h2>Role Details</h2>
+</div>
+
+<div class="chit-chat-layer1">
+    <div class="col-md-12 chit-chat-layer1-left">
+        <div class="work-progres">
+            <div class="table-responsive">
+                <table class="table no-lines">
+                    <tbody>
+                        <tr>
+                            <td>Role</td>
+                            <td>@Html.DisplayFor(model => model.Name)</td>
+                        </tr>
+                        <tr>
+                            <td>Users in Role</td>
+                            @if (ViewBag.Users.Count == 0)
+                            {
+                                <td>There are no users in this role</td>
+                            }
+                            else
+                            {
+                                <td>
+                                    @foreach (var item in ViewBag.Users)
+                                    {
+                                        @item.UserName <br />
+                                    }
+                                </td>
+                            }
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+        <div class="clearfix"></div>
+        <br />
+        @Html.ActionLink("Back to Roles", "Index")
+    </div>
+</div>
+

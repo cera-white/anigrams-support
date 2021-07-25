@@ -1,0 +1,48 @@
+﻿@model IdentitySample.Models.LoginViewModel
+
+@{
+    ViewBag.Title = "Log In";
+}
+
+<div class="login-page">
+    <div class="login-main">
+        <div class="login-head">
+            <h1>Log In</h1>
+        </div>
+        <div class="login-block">
+            @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+                @Html.TextBoxFor(m => m.Email, new { @placeholder = "Email" })
+
+                @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                @Html.PasswordFor(m => m.Password, new { @placeholder = "Password" })
+                
+
+                <div class="forgot-top-grids">
+                    <div class="forgot-grid">
+
+                        <div class="checkbox">
+                            @Html.CheckBoxFor(m => m.RememberMe)
+                            @Html.LabelFor(m => m.RememberMe, new { @class = "checkbox" })
+                        </div>
+                    </div>
+                    <div class="forgot">
+                        @Html.ActionLink("Forget your password?", "ForgotPassword")
+                    </div>
+                    <div class="clearfix"> </div>
+                </div>
+                <input type="submit" value="Log in" name="Sign In" />
+                <h3>@Html.ActionLink("Not a member? Sign up now", "Register")</h3>
+            }
+            <h5><a href="@Url.Action("Index", "Home")">Back to Home</a></h5>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

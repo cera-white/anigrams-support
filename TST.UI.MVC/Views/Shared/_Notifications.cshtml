@@ -1,0 +1,55 @@
+﻿@using Microsoft.AspNet.Identity
+@using TST.DATA.EF
+
+@model IEnumerable<TST.DATA.EF.TSTUserNotification>
+
+@{
+    TSTUser user = null;
+
+    if (Request.IsAuthenticated)
+    {
+        TSTEntities db = new TSTEntities();
+        string userID = User.Identity.GetUserId();
+        user = db.TSTUsers.Where(x => x.UserID == userID).SingleOrDefault();
+    }
+}
+
+<li class="dropdown head-dpdn">
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+        <i class="fa fa-bell"></i>
+        @if (@Model.Where(t => t.TSTUserID == user.TSTUserID && t.IsRead == false).Count() > 0)
+        {
+            <span class="badge blue">@Model.Where(t => t.TSTUserID == user.TSTUserID && t.IsRead == false).Count()</span>
+        }
+    </a>
+    <ul class="dropdown-menu">
+        <li>
+            <div class="notification_header">
+                <h3>@string.Format("You have {0} new {1}", Model.Where(t => t.TSTUserID == user.TSTUserID && t.IsRead == false).Count(), (Model.Where(t => t.TSTUserID == user.TSTUserID && t.IsRead == false).Count() == 1) ? "notification" : "notifications")</h3>
+            </div>
+        </li>
+        @foreach (var item in @Model.Where(t => t.TSTUserID == user.TSTUserID && t.IsRead == false))
+            {
+            <li>
+                <a href="@Url.Action("ClearNotifications", "Notifications", new { @id = item.NotificationID, @ticketID = item.TicketID })">
+                    <div class="round user_img">
+                        <img src="~/images/users/@item.TSTUser1.Image" alt="@item.TSTUser1.TSTUserPreference.DisplayName" width="50">
+                    </div>
+                    <div class="notification_desc">
+                        <p>@Html.DisplayFor(modelItem => item.Message)</p>
+                        @{
+                            var elapsed = string.Format("{0:n0}", DateTime.Now.Subtract(item.DateEntered).TotalHours);
+                        }
+                        <p><span>@elapsed hours ago</span></p>
+                    </div>
+                    <div class="clearfix"></div>
+                </a>
+            </li>
+                            }
+        <li>
+            <div class="notification_bottom">
+                <a href="@Url.Action("Index", "Notifications")">See all notifications</a>
+            </div>
+        </li>
+    </ul>
+</li>

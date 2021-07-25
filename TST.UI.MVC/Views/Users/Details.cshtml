@@ -1,0 +1,178 @@
+﻿@using Microsoft.AspNet.Identity;
+@model TST.DATA.EF.TSTUser
+
+@{
+    ViewBag.Title = "User Profile";
+
+    string userID = User.Identity.GetUserId();
+    string userName = User.Identity.GetUserName();
+}
+
+<div class="pro-head">
+    @if (Model.UserID != userID)
+    {
+        <div class="pull-right">
+            <br />
+            @if (!ViewBag.IsFriend)
+            {
+                <a href="@Url.Action("AddContact", "Users", new { @id = Model.TSTUserID })" class="btn btn-primary" id="addContact"><i class="fa fa-user-plus"></i> Add to Contacts</a>
+            }
+            <a href="@Url.Action("Create", "Messages", new { @user = Model.TSTUserID })" class="btn btn-primary"><i class="fa fa-envelope"></i> Send Message</a>
+        </div>
+    }
+    
+    <h2>User Profile</h2>
+</div>
+<div class="inbox">
+    <div class="col-md-4 compose">
+        <div class="mail-profile">
+            <img src="~/images/users/@Model.Image" alt="@Model.TSTUserPreference.DisplayName" style="width: 100%;">
+            <div class="clearfix"> </div>
+        </div>
+        <div class="compose-bottom">
+            <ul>
+                @if (Model.EndDate != null)
+                {
+                    <li><a class="hilate" href="#">Member from @Html.DisplayFor(model => model.StartDate) - @Html.DisplayFor(model => model.EndDate)</a></li>
+                }
+                else
+                {
+                    <li><a class="hilate" href="#">Member since @Html.DisplayFor(model => model.StartDate)</a></li>
+                }
+                @if ((Model.UserID == userID || User.IsInRole("Admin")) && userName != "Guest@anigrams.org")
+                {
+                    <li><a href="@Url.Action("Edit", "Users", new { @id = Model.TSTUserID } )">Edit Profile</a></li>
+                }
+                @if (Model.UserID == userID && userName != "Guest@anigrams.org")
+                {
+                    <li><a href="@Url.Action("ChangePassword", "Manage")">Change Password</a></li>
+                }
+                @if (User.IsInRole("Admin"))
+                {
+                    <li><a href="@Url.Action("Delete", "Users", new { @id = Model.TSTUserID } )">Remove User</a></li>
+                }
+                <li><a href="@Url.Action("Index", "Users")">Back to Users</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="col-md-8 compose-right">
+        <div class="inbox-details-default">
+            <div class="inbox-details-body bs-example">
+                <h3>@Model.TSTUserPreference.DisplayName</h3>
+                <hr />
+                <div class="table-responsive">
+                    <table class="table no-lines">
+                        <tbody>
+                            <tr>
+                                <td><span>Title</span></td>
+                                <td>@Html.DisplayFor(model => model.TSTUserTitle.Name)</td>
+                            </tr>
+                            @if (Model.TSTUserPreference.ShowEmail == true)
+                            {
+                                <tr>
+                                    <td><span>Email</span></td>
+                                    <td>@Html.DisplayFor(model => model.Email)</td>
+                                </tr>
+                            }
+                            @if (!(Model.TSTUserPreference.ShowStreetAddress == false && Model.TSTUserPreference.ShowCityState == false && Model.TSTUserPreference.ShowZip == false && Model.TSTUserPreference.ShowCountry == false))
+                            {
+                                <tr>
+                                    <td><span>Address</span></td>
+                                    <td>
+                                        @if (Model.TSTUserPreference.ShowStreetAddress == true)
+                                        {
+                                            if (Model.Address1 != null)
+                                            {
+                                                @Html.DisplayFor(model => model.Address1)
+                                                <br />
+                                            }
+                                            if (Model.Address2 != null)
+                                            {
+                                                @Html.DisplayFor(model => model.Address2)
+                                                <br />
+                                            }
+                                        }
+                                        @if (Model.TSTUserPreference.ShowCityState == true)
+                                        {
+                                            if (Model.City != null)
+                                            {
+                                                @Html.DisplayFor(model => model.City)
+                                                <span style="margin: 0;">,</span>
+                                            }
+                                            if (Model.State != null)
+                                            {
+                                                @Html.DisplayFor(model => model.State)
+                                            }
+                                        }
+                                        @if (Model.TSTUserPreference.ShowZip == true && Model.Zip != null)
+                                        {
+                                            @Html.DisplayFor(model => model.Zip);
+
+                                        }
+                                        @if (Model.TSTUserPreference.ShowCountry == true && Model.Country != null)
+                                        {
+                                            <br />@Html.DisplayFor(model => model.Country);
+                                        }
+                                        @if (Model.Address1 == null && Model.Address2 == null && Model.City == null && Model.State == null && Model.Zip == null && Model.Country == null)
+                                        {
+                                            <p>No address listed</p>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                            @if (Model.TSTUserPreference.ShowBirthday == true && Model.DateOfBirth != null)
+                            {
+                                <tr>
+                                    <td><span>Birthday</span></td>
+                                    <td>@Html.DisplayFor(model => model.DateOfBirth)</td>
+                                </tr>
+                            }
+                            @if (Model.UserID == userID)
+                            {
+                                <tr>
+                                    <td><br /><a href="@Url.Action("Edit", "UserPreferences", new { @id = Model.UserPreferenceID })">Change Privacy Settings</a></td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                    </div>
+                </div>
+        </div>
+
+        <br />
+
+        @if (ViewBag.Projects != null)
+        {
+            <h3 style="font-weight:bold;padding: .5em;">Projects</h3>
+
+            foreach (var item in ViewBag.Projects)
+            {
+                <div class="col-md-4 product-grid">
+                    <div class="product-items" style="margin-bottom: 1em;">
+                        <a href="@Url.Action("Details", "Projects", new { @id = item.ProjectID })">
+                            <div class="project-eff">
+                                <img class="img-responsive" src="~/images/projects/@item.Image" alt="@item.Name">
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            }
+        }
+
+    </div>
+</div>
+
+<div class="clearfix"> </div>
+
+<script>
+    $("#addContact").click(function(e){
+        e.preventDefault();
+        $.ajax({
+            url:$(this).attr("href"),
+            success: function(){
+                location.reload();
+            }
+        });
+    });
+</script>
+

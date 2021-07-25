@@ -1,0 +1,69 @@
+﻿@model TST.DATA.EF.TSTTicket
+
+@{
+    ViewBag.Title = "Submit Ticket";
+}
+
+@using (Html.BeginForm("Create", "Tickets", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    <div class="buttons-main">
+        <div class="progressbar-heading btn-main-heading">
+            <h2>Submit New Ticket</h2>
+        </div>
+        <div class="btn-effcts panel-widget inbox-details-body compose-right">
+            <div class="table-responsive">
+                <table class="table no-lines">
+                    <tbody>
+                        <tr>
+                            <td>Project <a href="@Url.Action("Index", "Projects")" target="_blank"><i class="fa fa-question-circle"></i></a></td>
+                            <td colspan="2">@Html.DropDownList("ProjectID", null, "[None Selected]", htmlAttributes: new { @class = "form-control" })</td>
+                            <td>@Html.ValidationMessageFor(model => model.ProjectID, "", new { @class = "text-danger" })</td>
+                        </tr>
+                        <tr>
+                            <td>Subject</td>
+                            <td colspan="2">@Html.EditorFor(model => model.Subject, new { htmlAttributes = new { @class = "form-control", @placeholder = "Summarize your issue in one line (title)" } })</td>
+                            <td>@Html.ValidationMessageFor(model => model.Subject, "", new { @class = "text-danger" })</td>
+                        </tr>
+                        <tr>
+                            <td>Issue Description</td>
+                            <td colspan="2">@Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control", @placeholder = "Describe your issue in as much detail as possible, including which operating system and/or browser you're using and any error messages you may be seeing. You can attach screenshots, error logs, or other relevant files in the Attachments area below." } })</td>
+                            <td>@Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })</td>
+                        </tr>
+                        <tr>
+                            <td>Type of Issue <a href="@Url.Action("Index", "TicketClassifications")" target="_blank"><i class="fa fa-question-circle"></i></a></td>
+                            <td colspan="2">@Html.DropDownList("TicketClassificationID", null, htmlAttributes: new { @class = "form-control" })</td>
+                            <td>@Html.ValidationMessageFor(model => model.TicketClassificationID, "", new { @class = "text-danger" })</td>
+                        </tr>
+                        <tr>
+                            <td>Tags <span>(Optional)</span></td>
+                            <td colspan="2">@Html.EditorFor(model => model.Tags, new { htmlAttributes = new { @class = "form-control", @placeholder = "Enter keywords separated by commas" } })</td>
+                            <td>@Html.ValidationMessageFor(model => model.Tags, "", new { @class = "text-danger" })</td>
+                        </tr>
+                        <tr>
+                            <td>Attachments <span>(Optional)</span></td>
+                            <td>
+                                <input type="file" name="attachment1" />
+                                @Html.ValidationMessageFor(model => model.Attachment1, "", new { @class = "text-danger" })
+                            </td>
+                            <td>
+                                <input type="file" name="attachment2" />
+                                @Html.ValidationMessageFor(model => model.Attachment2, "", new { @class = "text-danger" })
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                </div>
+                <input type="submit" value="Save and Submit" class="btn btn-primary" />
+
+                <div class="clearfix"></div>
+            </div>
+
+        <br />
+        <a href="@Url.Action("Index", "Tickets")">Back to Tickets</a>
+    </div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

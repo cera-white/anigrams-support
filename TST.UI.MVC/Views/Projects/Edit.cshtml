@@ -1,0 +1,75 @@
+﻿@model TST.DATA.EF.TSTProject
+
+@{
+    ViewBag.Title = "Edit Project";
+}
+
+@using (Html.BeginForm("Edit", "Projects", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(model => model.ProjectID)
+    @Html.HiddenFor(model => model.IsActive)
+
+    <div class="pro-head">
+        <h2>Edit Project</h2>
+    </div>
+
+    <div class="inbox">
+        <div class="col-md-4 compose">
+            <div class="mail-profile">
+                <img src="~/images/projects/@Model.Image" alt="@Model.Name" style="width: 100%;">
+                <div class="clearfix"> </div>
+            </div>
+            <div class="compose-block">
+                <input type="file" name="projectImage" />
+                @Html.ValidationMessageFor(model => model.Image, "", new { @class = "text-danger" })
+                @Html.HiddenFor(model => model.Image)
+            </div>
+            <div class="compose-bottom">
+                <ul>
+                    <li><a href="@Url.Action("Delete", "Projects", new { id = Model.ProjectID })">Toggle Status</a></li>
+                    <li><a href="@Url.Action("Index", "Projects")">Back to Projects</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="col-md-8 compose-right">
+            <div class="inbox-details-default">
+                <div class="inbox-details-body bs-example">
+                    <div class="table-responsive">
+                        <table class="table no-lines">
+                            <tbody>
+                                <tr>
+                                    <td><span>Project Name</span></td>
+                                    <td>@Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })</td>
+                                    <td>@Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })</td>
+                                </tr>
+                                <tr>
+                                    <td><span>Category</span></td>
+                                    <td>@Html.DropDownList("ProjectCategoryID", null, htmlAttributes: new { @class = "form-control" })</td>
+                                    <td>@Html.ValidationMessageFor(model => model.ProjectCategoryID, "", new { @class = "text-danger" })</td>
+                                </tr>
+                                <tr>
+                                    <td><span>Description</span></td>
+                                    <td>@Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })</td>
+                                    <td>@Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })</td>
+                                </tr>
+                                <tr>
+                                    <td><span>Website</span></td>
+                                    <td>@Html.EditorFor(model => model.Website, new { htmlAttributes = new { @class = "form-control" } })</td>
+                                    <td>@Html.ValidationMessageFor(model => model.Website, "", new { @class = "text-danger" })</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        </div>
+                        <input type="submit" value="Save Changes" class="btn btn-primary" />
+                    </div>
+            </div>
+        </div>
+        <div class="clearfix"> </div>
+    </div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

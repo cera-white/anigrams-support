@@ -1,0 +1,62 @@
+﻿@model IEnumerable<TST.DATA.EF.TSTUserTitle>
+
+@{
+    ViewBag.Title = "User Titles";
+}
+
+<div class="price-block-main">
+    <div class="prices-head">
+        @if (User.IsInRole("Admin"))
+        {
+            <div class="pull-right" style="margin-right: 1%;">
+                <br />
+                <a href="@Url.Action("Create", "UserTitles")">Add New Title</a>
+            </div>
+        }
+        <h2>User Titles</h2>
+    </div>
+    <div class="price-tables">
+        @{
+            int c = 1; //counter for clearfix
+
+            foreach (var item in Model.Where(t => t.IsActive == true))
+            {
+                <div class="col-md-4 price-grid">
+                    <div class="price-block">
+                        <div class="price-gd-top pric-clr1">
+                            <h4>@Html.DisplayFor(modelItem => item.Name)</h4>
+                            <h3>
+                                @item.TSTUsers.Count()
+                                @if (item.TSTUsers.Count() == 1)
+                                {
+                                    <span class="per-month">User</span>
+                                }
+                                else
+                                {
+                                    <span class="per-month">Users</span>
+                                }
+                            </h3>
+                            <h5>@Html.DisplayFor(modelItem => item.Description)</h5>
+                        </div>
+                        <div class="price-selet pric-clr1">
+                            <a href="@Url.Action("Index", "Users", new { @title = item.UserTitleID })">View Users</a>
+                            @if (User.IsInRole("Admin"))
+                            {
+                                <a href="@Url.Action("Edit", "UserTitles", new { @id = item.UserTitleID })">Edit</a>
+                                <a href="@Url.Action("Delete", "UserTitles", new { @id = item.UserTitleID })">Delete</a>
+                            }
+                        </div>
+                    </div>
+                </div>
+                if (c == 3)
+                {
+                    <div class="clearfix"> </div>
+                    c = 0;
+                }
+
+                c++;
+            }//end foreach
+        }
+        <div class="clearfix"> </div>
+    </div>
+</div>

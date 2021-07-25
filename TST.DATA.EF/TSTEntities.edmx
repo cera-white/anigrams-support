@@ -1,0 +1,1302 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="TSTModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="TSTComments">
+          <Key>
+            <PropertyRef Name="CommentID" />
+          </Key>
+          <Property Name="CommentID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Comment" Type="nvarchar" MaxLength="500" Nullable="false" />
+          <Property Name="PostedBy" Type="int" Nullable="false" />
+          <Property Name="DatePosted" Type="smalldatetime" Nullable="false" />
+          <Property Name="TicketID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TSTMessages">
+          <Key>
+            <PropertyRef Name="MessageID" />
+          </Key>
+          <Property Name="MessageID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Sender" Type="int" Nullable="false" />
+          <Property Name="Recipient" Type="int" Nullable="false" />
+          <Property Name="Subject" Type="nvarchar" MaxLength="75" Nullable="false" />
+          <Property Name="Message" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="DateSent" Type="smalldatetime" Nullable="false" />
+          <Property Name="IsRead" Type="bit" Nullable="false" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TSTProjectCategories">
+          <Key>
+            <PropertyRef Name="ProjectCategoryID" />
+          </Key>
+          <Property Name="ProjectCategoryID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="250" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TSTProjects">
+          <Key>
+            <PropertyRef Name="ProjectID" />
+          </Key>
+          <Property Name="ProjectID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="1000" />
+          <Property Name="ProjectCategoryID" Type="int" Nullable="false" />
+          <Property Name="Website" Type="nvarchar" MaxLength="100" />
+          <Property Name="Image" Type="nvarchar" MaxLength="100" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TSTProjects_Users">
+          <Key>
+            <PropertyRef Name="Projects_UsersID" />
+          </Key>
+          <Property Name="Projects_UsersID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ProjectID" Type="int" Nullable="false" />
+          <Property Name="TSTUserID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TSTResolutions">
+          <Key>
+            <PropertyRef Name="ResolutionID" />
+          </Key>
+          <Property Name="ResolutionID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Problem" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Resolution" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="PostedBy" Type="int" Nullable="false" />
+          <Property Name="DatePosted" Type="smalldatetime" Nullable="false" />
+          <Property Name="Attachment" Type="nvarchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="TSTTicketClassifications">
+          <Key>
+            <PropertyRef Name="TicketClassificationID" />
+          </Key>
+          <Property Name="TicketClassificationID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="250" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+          <Property Name="PriorityLevel" Type="int" />
+        </EntityType>
+        <EntityType Name="TSTTickets">
+          <Key>
+            <PropertyRef Name="TicketID" />
+          </Key>
+          <Property Name="TicketID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Subject" Type="nvarchar" MaxLength="75" Nullable="false" />
+          <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="TicketClassificationID" Type="int" Nullable="false" />
+          <Property Name="SubmittedBy" Type="int" Nullable="false" />
+          <Property Name="TechAssigned" Type="int" />
+          <Property Name="TicketStatusID" Type="int" Nullable="false" />
+          <Property Name="DateSubmitted" Type="smalldatetime" Nullable="false" />
+          <Property Name="DateResolved" Type="smalldatetime" />
+          <Property Name="ProjectID" Type="int" Nullable="false" />
+          <Property Name="Attachment1" Type="nvarchar" MaxLength="100" />
+          <Property Name="Attachment2" Type="nvarchar" MaxLength="100" />
+          <Property Name="Tags" Type="nvarchar" MaxLength="500" />
+          <Property Name="ResolutionID" Type="int" />
+        </EntityType>
+        <EntityType Name="TSTTicketStatuses">
+          <Key>
+            <PropertyRef Name="TicketStatusID" />
+          </Key>
+          <Property Name="TicketStatusID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="250" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TSTUserContacts">
+          <Key>
+            <PropertyRef Name="ContactID" />
+          </Key>
+          <Property Name="ContactID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TSTUserID" Type="int" Nullable="false" />
+          <Property Name="FriendID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TSTUserNotifications">
+          <Key>
+            <PropertyRef Name="NotificationID" />
+          </Key>
+          <Property Name="NotificationID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TSTUserID" Type="int" Nullable="false" />
+          <Property Name="PostedBy" Type="int" Nullable="false" />
+          <Property Name="Message" Type="nvarchar" MaxLength="250" Nullable="false" />
+          <Property Name="DateEntered" Type="smalldatetime" Nullable="false" />
+          <Property Name="IsRead" Type="bit" Nullable="false" />
+          <Property Name="TicketID" Type="int" />
+        </EntityType>
+        <EntityType Name="TSTUserPreferences">
+          <Key>
+            <PropertyRef Name="UserPreferenceID" />
+          </Key>
+          <Property Name="UserPreferenceID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DisplayName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="ShowStreetAddress" Type="bit" Nullable="false" />
+          <Property Name="ShowCityState" Type="bit" Nullable="false" />
+          <Property Name="ShowZip" Type="bit" Nullable="false" />
+          <Property Name="ShowCountry" Type="bit" Nullable="false" />
+          <Property Name="ShowEmail" Type="bit" Nullable="false" />
+          <Property Name="ShowBirthday" Type="bit" Nullable="false" />
+          <Property Name="EmailNotifications" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TSTUsers">
+          <Key>
+            <PropertyRef Name="TSTUserID" />
+          </Key>
+          <Property Name="TSTUserID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FirstName" Type="nvarchar" MaxLength="25" Nullable="false" />
+          <Property Name="LastName" Type="nvarchar" MaxLength="25" Nullable="false" />
+          <Property Name="UserID" Type="nvarchar" MaxLength="100" />
+          <Property Name="UserTitleID" Type="int" Nullable="false" />
+          <Property Name="StartDate" Type="smalldatetime" Nullable="false" />
+          <Property Name="EndDate" Type="smalldatetime" />
+          <Property Name="Address1" Type="nvarchar" MaxLength="100" />
+          <Property Name="Address2" Type="nvarchar" MaxLength="50" />
+          <Property Name="City" Type="nvarchar" MaxLength="50" />
+          <Property Name="State" Type="nvarchar" MaxLength="100" />
+          <Property Name="Zip" Type="nvarchar" MaxLength="20" />
+          <Property Name="Country" Type="nvarchar" MaxLength="100" />
+          <Property Name="Email" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="UserPreferenceID" Type="int" />
+          <Property Name="DateOfBirth" Type="smalldatetime" />
+          <Property Name="Image" Type="nvarchar" MaxLength="100" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TSTUserTitles">
+          <Key>
+            <PropertyRef Name="UserTitleID" />
+          </Key>
+          <Property Name="UserTitleID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="250" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_TSTComments_TSTTickets">
+          <End Role="TSTTickets" Type="Self.TSTTickets" Multiplicity="1" />
+          <End Role="TSTComments" Type="Self.TSTComments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TSTTickets">
+              <PropertyRef Name="TicketID" />
+            </Principal>
+            <Dependent Role="TSTComments">
+              <PropertyRef Name="TicketID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TSTComments_TSTUsers">
+          <End Role="TSTUsers" Type="Self.TSTUsers" Multiplicity="1" />
+          <End Role="TSTComments" Type="Self.TSTComments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TSTUsers">
+              <PropertyRef Name="TSTUserID" />
+            </Principal>
+            <Dependent Role="TSTComments">
+              <PropertyRef Name="PostedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TSTMessages_TSTUsers">
+          <End Role="TSTUsers" Type="Self.TSTUsers" Multiplicity="1" />
+          <End Role="TSTMessages" Type="Self.TSTMessages" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TSTUsers">
+              <PropertyRef Name="TSTUserID" />
+            </Principal>
+            <Dependent Role="TSTMessages">
+              <PropertyRef Name="Sender" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TSTMessages_TSTUsers1">
+          <End Role="TSTUsers" Type="Self.TSTUsers" Multiplicity="1" />
+          <End Role="TSTMessages" Type="Self.TSTMessages" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TSTUsers">
+              <PropertyRef Name="TSTUserID" />
+            </Principal>
+            <Dependent Role="TSTMessages">
+              <PropertyRef Name="Recipient" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TSTProjects_TSTProjectCategories">
+          <End Role="TSTProjectCategories" Type="Self.TSTProjectCategories" Multiplicity="1" />
+          <End Role="TSTProjects" Type="Self.TSTProjects" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TSTProjectCategories">
+              <PropertyRef Name="ProjectCategoryID" />
+            </Principal>
+            <Dependent Role="TSTProjects">
+              <PropertyRef Name="ProjectCategoryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TSTProjectUsers_TSTProjects">
+          <End Role="TSTProjects" Type="Self.TSTProjects" Multiplicity="1" />
+          <End Role="TSTProjects_Users" Type="Self.TSTProjects_Users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TSTProjects">
+              <PropertyRef Name="ProjectID" />
+            </Principal>
+            <Dependent Role="TSTProjects_Users">
+              <PropertyRef Name="ProjectID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TSTProjectUsers_TSTUsers">
+          <End Role="TSTUsers" Type="Self.TSTUsers" Multiplicity="1" />
+          <End Role="TSTProjects_Users" Type="Self.TSTProjects_Users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TSTUsers">
+              <PropertyRef Name="TSTUserID" />
+            </Principal>
+            <Dependent Role="TSTProjects_Users">
+              <PropertyRef Name="TSTUserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TSTResolutions_TSTUsers">
+          <End Role="TSTUsers" Type="Self.TSTUsers" Multiplicity="1" />
+          <End Role="TSTResolutions" Type="Self.TSTResolutions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TSTUsers">
+              <PropertyRef Name="TSTUserID" />
+            </Principal>
+            <Dependent Role="TSTResolutions">
+              <PropertyRef Name="PostedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TSTTickets_TSTProjects">
+          <End Role="TSTProjects" Type="Self.TSTProjects" Multiplicity="1" />
+          <End Role="TSTTickets" Type="Self.TSTTickets" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TSTProjects">
+              <PropertyRef Name="ProjectID" />
+            </Principal>
+            <Dependent Role="TSTTickets">
+              <PropertyRef Name="ProjectID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TSTTickets_TSTResolutions">
+          <End Role="TSTResolutions" Type="Self.TSTResolutions" Multiplicity="0..1" />
+          <End Role="TSTTickets" Type="Self.TSTTickets" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TSTResolutions">
+              <PropertyRef Name="ResolutionID" />
+            </Principal>
+            <Dependent Role="TSTTickets">
+              <PropertyRef Name="ResolutionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TSTTickets_TSTTicketClassifications">
+          <End Role="TSTTicketClassifications" Type="Self.TSTTicketClassifications" Multiplicity="1" />
+          <End Role="TSTTickets" Type="Self.TSTTickets" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TSTTicketClassifications">
+              <PropertyRef Name="TicketClassificationID" />
+            </Principal>
+            <Dependent Role="TSTTickets">
+              <PropertyRef Name="TicketClassificationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TSTTickets_TSTTicketStatuses">
+          <End Role="TSTTicketStatuses" Type="Self.TSTTicketStatuses" Multiplicity="1" />
+          <End Role="TSTTickets" Type="Self.TSTTickets" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TSTTicketStatuses">
+              <PropertyRef Name="TicketStatusID" />
+            </Principal>
+            <Dependent Role="TSTTickets">
+              <PropertyRef Name="TicketStatusID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TSTTickets_TSTUsers">
+          <End Role="TSTUsers" Type="Self.TSTUsers" Multiplicity="1" />
+          <End Role="TSTTickets" Type="Self.TSTTickets" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TSTUsers">
+              <PropertyRef Name="TSTUserID" />
+            </Principal>
+            <Dependent Role="TSTTickets">
+              <PropertyRef Name="SubmittedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TSTTickets_TSTUsers1">
+          <End Role="TSTUsers" Type="Self.TSTUsers" Multiplicity="0..1" />
+          <End Role="TSTTickets" Type="Self.TSTTickets" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TSTUsers">
+              <PropertyRef Name="TSTUserID" />
+            </Principal>
+            <Dependent Role="TSTTickets">
+              <PropertyRef Name="TechAssigned" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TSTUserContacts_TSTUsers">
+          <End Role="TSTUsers" Type="Self.TSTUsers" Multiplicity="1" />
+          <End Role="TSTUserContacts" Type="Self.TSTUserContacts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TSTUsers">
+              <PropertyRef Name="TSTUserID" />
+            </Principal>
+            <Dependent Role="TSTUserContacts">
+              <PropertyRef Name="TSTUserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TSTUserContacts_TSTUsers1">
+          <End Role="TSTUsers" Type="Self.TSTUsers" Multiplicity="1" />
+          <End Role="TSTUserContacts" Type="Self.TSTUserContacts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TSTUsers">
+              <PropertyRef Name="TSTUserID" />
+            </Principal>
+            <Dependent Role="TSTUserContacts">
+              <PropertyRef Name="FriendID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TSTUserNotifications_TSTTickets">
+          <End Role="TSTTickets" Type="Self.TSTTickets" Multiplicity="0..1" />
+          <End Role="TSTUserNotifications" Type="Self.TSTUserNotifications" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TSTTickets">
+              <PropertyRef Name="TicketID" />
+            </Principal>
+            <Dependent Role="TSTUserNotifications">
+              <PropertyRef Name="TicketID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TSTUserNotifications_TSTUsers">
+          <End Role="TSTUsers" Type="Self.TSTUsers" Multiplicity="1" />
+          <End Role="TSTUserNotifications" Type="Self.TSTUserNotifications" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TSTUsers">
+              <PropertyRef Name="TSTUserID" />
+            </Principal>
+            <Dependent Role="TSTUserNotifications">
+              <PropertyRef Name="TSTUserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TSTUserNotifications_TSTUsers1">
+          <End Role="TSTUsers" Type="Self.TSTUsers" Multiplicity="1" />
+          <End Role="TSTUserNotifications" Type="Self.TSTUserNotifications" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TSTUsers">
+              <PropertyRef Name="TSTUserID" />
+            </Principal>
+            <Dependent Role="TSTUserNotifications">
+              <PropertyRef Name="PostedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TSTUsers_TSTUserPreferences">
+          <End Role="TSTUserPreferences" Type="Self.TSTUserPreferences" Multiplicity="0..1" />
+          <End Role="TSTUsers" Type="Self.TSTUsers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TSTUserPreferences">
+              <PropertyRef Name="UserPreferenceID" />
+            </Principal>
+            <Dependent Role="TSTUsers">
+              <PropertyRef Name="UserPreferenceID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TSTUsers_TSTUserTitles">
+          <End Role="TSTUserTitles" Type="Self.TSTUserTitles" Multiplicity="1" />
+          <End Role="TSTUsers" Type="Self.TSTUsers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TSTUserTitles">
+              <PropertyRef Name="UserTitleID" />
+            </Principal>
+            <Dependent Role="TSTUsers">
+              <PropertyRef Name="UserTitleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="TSTModelStoreContainer">
+          <EntitySet Name="TSTComments" EntityType="Self.TSTComments" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TSTMessages" EntityType="Self.TSTMessages" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TSTProjectCategories" EntityType="Self.TSTProjectCategories" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TSTProjects" EntityType="Self.TSTProjects" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TSTProjects_Users" EntityType="Self.TSTProjects_Users" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TSTResolutions" EntityType="Self.TSTResolutions" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TSTTicketClassifications" EntityType="Self.TSTTicketClassifications" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TSTTickets" EntityType="Self.TSTTickets" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TSTTicketStatuses" EntityType="Self.TSTTicketStatuses" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TSTUserContacts" EntityType="Self.TSTUserContacts" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TSTUserNotifications" EntityType="Self.TSTUserNotifications" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TSTUserPreferences" EntityType="Self.TSTUserPreferences" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TSTUsers" EntityType="Self.TSTUsers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TSTUserTitles" EntityType="Self.TSTUserTitles" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_TSTComments_TSTTickets" Association="Self.FK_TSTComments_TSTTickets">
+            <End Role="TSTTickets" EntitySet="TSTTickets" />
+            <End Role="TSTComments" EntitySet="TSTComments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TSTComments_TSTUsers" Association="Self.FK_TSTComments_TSTUsers">
+            <End Role="TSTUsers" EntitySet="TSTUsers" />
+            <End Role="TSTComments" EntitySet="TSTComments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TSTMessages_TSTUsers" Association="Self.FK_TSTMessages_TSTUsers">
+            <End Role="TSTUsers" EntitySet="TSTUsers" />
+            <End Role="TSTMessages" EntitySet="TSTMessages" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TSTMessages_TSTUsers1" Association="Self.FK_TSTMessages_TSTUsers1">
+            <End Role="TSTUsers" EntitySet="TSTUsers" />
+            <End Role="TSTMessages" EntitySet="TSTMessages" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TSTProjects_TSTProjectCategories" Association="Self.FK_TSTProjects_TSTProjectCategories">
+            <End Role="TSTProjectCategories" EntitySet="TSTProjectCategories" />
+            <End Role="TSTProjects" EntitySet="TSTProjects" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TSTProjectUsers_TSTProjects" Association="Self.FK_TSTProjectUsers_TSTProjects">
+            <End Role="TSTProjects" EntitySet="TSTProjects" />
+            <End Role="TSTProjects_Users" EntitySet="TSTProjects_Users" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TSTProjectUsers_TSTUsers" Association="Self.FK_TSTProjectUsers_TSTUsers">
+            <End Role="TSTUsers" EntitySet="TSTUsers" />
+            <End Role="TSTProjects_Users" EntitySet="TSTProjects_Users" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TSTResolutions_TSTUsers" Association="Self.FK_TSTResolutions_TSTUsers">
+            <End Role="TSTUsers" EntitySet="TSTUsers" />
+            <End Role="TSTResolutions" EntitySet="TSTResolutions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TSTTickets_TSTProjects" Association="Self.FK_TSTTickets_TSTProjects">
+            <End Role="TSTProjects" EntitySet="TSTProjects" />
+            <End Role="TSTTickets" EntitySet="TSTTickets" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TSTTickets_TSTResolutions" Association="Self.FK_TSTTickets_TSTResolutions">
+            <End Role="TSTResolutions" EntitySet="TSTResolutions" />
+            <End Role="TSTTickets" EntitySet="TSTTickets" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TSTTickets_TSTTicketClassifications" Association="Self.FK_TSTTickets_TSTTicketClassifications">
+            <End Role="TSTTicketClassifications" EntitySet="TSTTicketClassifications" />
+            <End Role="TSTTickets" EntitySet="TSTTickets" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TSTTickets_TSTTicketStatuses" Association="Self.FK_TSTTickets_TSTTicketStatuses">
+            <End Role="TSTTicketStatuses" EntitySet="TSTTicketStatuses" />
+            <End Role="TSTTickets" EntitySet="TSTTickets" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TSTTickets_TSTUsers" Association="Self.FK_TSTTickets_TSTUsers">
+            <End Role="TSTUsers" EntitySet="TSTUsers" />
+            <End Role="TSTTickets" EntitySet="TSTTickets" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TSTTickets_TSTUsers1" Association="Self.FK_TSTTickets_TSTUsers1">
+            <End Role="TSTUsers" EntitySet="TSTUsers" />
+            <End Role="TSTTickets" EntitySet="TSTTickets" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TSTUserContacts_TSTUsers" Association="Self.FK_TSTUserContacts_TSTUsers">
+            <End Role="TSTUsers" EntitySet="TSTUsers" />
+            <End Role="TSTUserContacts" EntitySet="TSTUserContacts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TSTUserContacts_TSTUsers1" Association="Self.FK_TSTUserContacts_TSTUsers1">
+            <End Role="TSTUsers" EntitySet="TSTUsers" />
+            <End Role="TSTUserContacts" EntitySet="TSTUserContacts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TSTUserNotifications_TSTTickets" Association="Self.FK_TSTUserNotifications_TSTTickets">
+            <End Role="TSTTickets" EntitySet="TSTTickets" />
+            <End Role="TSTUserNotifications" EntitySet="TSTUserNotifications" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TSTUserNotifications_TSTUsers" Association="Self.FK_TSTUserNotifications_TSTUsers">
+            <End Role="TSTUsers" EntitySet="TSTUsers" />
+            <End Role="TSTUserNotifications" EntitySet="TSTUserNotifications" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TSTUserNotifications_TSTUsers1" Association="Self.FK_TSTUserNotifications_TSTUsers1">
+            <End Role="TSTUsers" EntitySet="TSTUsers" />
+            <End Role="TSTUserNotifications" EntitySet="TSTUserNotifications" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TSTUsers_TSTUserPreferences" Association="Self.FK_TSTUsers_TSTUserPreferences">
+            <End Role="TSTUserPreferences" EntitySet="TSTUserPreferences" />
+            <End Role="TSTUsers" EntitySet="TSTUsers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TSTUsers_TSTUserTitles" Association="Self.FK_TSTUsers_TSTUserTitles">
+            <End Role="TSTUserTitles" EntitySet="TSTUserTitles" />
+            <End Role="TSTUsers" EntitySet="TSTUsers" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="TSTModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="TSTComment">
+          <Key>
+            <PropertyRef Name="CommentID" />
+          </Key>
+          <Property Name="CommentID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Comment" Type="String" MaxLength="500" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="PostedBy" Type="Int32" Nullable="false" />
+          <Property Name="DatePosted" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="TicketID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="TSTTicket" Relationship="Self.FK_TSTComments_TSTTickets" FromRole="TSTComments" ToRole="TSTTickets" />
+          <NavigationProperty Name="TSTUser" Relationship="Self.FK_TSTComments_TSTUsers" FromRole="TSTComments" ToRole="TSTUsers" />
+        </EntityType>
+        <EntityType Name="TSTMessage">
+          <Key>
+            <PropertyRef Name="MessageID" />
+          </Key>
+          <Property Name="MessageID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Sender" Type="Int32" Nullable="false" />
+          <Property Name="Recipient" Type="Int32" Nullable="false" />
+          <Property Name="Subject" Type="String" MaxLength="75" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Message" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="DateSent" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="IsRead" Type="Boolean" Nullable="false" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="TSTUser" Relationship="Self.FK_TSTMessages_TSTUsers" FromRole="TSTMessages" ToRole="TSTUsers" />
+          <NavigationProperty Name="TSTUser1" Relationship="Self.FK_TSTMessages_TSTUsers1" FromRole="TSTMessages" ToRole="TSTUsers" />
+        </EntityType>
+        <EntityType Name="TSTProjectCategory">
+          <Key>
+            <PropertyRef Name="ProjectCategoryID" />
+          </Key>
+          <Property Name="ProjectCategoryID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="TSTProjects" Relationship="Self.FK_TSTProjects_TSTProjectCategories" FromRole="TSTProjectCategories" ToRole="TSTProjects" />
+        </EntityType>
+        <EntityType Name="TSTProject">
+          <Key>
+            <PropertyRef Name="ProjectID" />
+          </Key>
+          <Property Name="ProjectID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="ProjectCategoryID" Type="Int32" Nullable="false" />
+          <Property Name="Website" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Image" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="TSTProjectCategory" Relationship="Self.FK_TSTProjects_TSTProjectCategories" FromRole="TSTProjects" ToRole="TSTProjectCategories" />
+          <NavigationProperty Name="TSTProjects_Users" Relationship="Self.FK_TSTProjectUsers_TSTProjects" FromRole="TSTProjects" ToRole="TSTProjects_Users" />
+          <NavigationProperty Name="TSTTickets" Relationship="Self.FK_TSTTickets_TSTProjects" FromRole="TSTProjects" ToRole="TSTTickets" />
+        </EntityType>
+        <EntityType Name="TSTProjects_Users">
+          <Key>
+            <PropertyRef Name="Projects_UsersID" />
+          </Key>
+          <Property Name="Projects_UsersID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProjectID" Type="Int32" Nullable="false" />
+          <Property Name="TSTUserID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="TSTProject" Relationship="Self.FK_TSTProjectUsers_TSTProjects" FromRole="TSTProjects_Users" ToRole="TSTProjects" />
+          <NavigationProperty Name="TSTUser" Relationship="Self.FK_TSTProjectUsers_TSTUsers" FromRole="TSTProjects_Users" ToRole="TSTUsers" />
+        </EntityType>
+        <EntityType Name="TSTResolution">
+          <Key>
+            <PropertyRef Name="ResolutionID" />
+          </Key>
+          <Property Name="ResolutionID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Problem" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Resolution" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="PostedBy" Type="Int32" Nullable="false" />
+          <Property Name="DatePosted" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Attachment" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="TSTUser" Relationship="Self.FK_TSTResolutions_TSTUsers" FromRole="TSTResolutions" ToRole="TSTUsers" />
+          <NavigationProperty Name="TSTTickets" Relationship="Self.FK_TSTTickets_TSTResolutions" FromRole="TSTResolutions" ToRole="TSTTickets" />
+        </EntityType>
+        <EntityType Name="TSTTicketClassification">
+          <Key>
+            <PropertyRef Name="TicketClassificationID" />
+          </Key>
+          <Property Name="TicketClassificationID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="PriorityLevel" Type="Int32" />
+          <NavigationProperty Name="TSTTickets" Relationship="Self.FK_TSTTickets_TSTTicketClassifications" FromRole="TSTTicketClassifications" ToRole="TSTTickets" />
+        </EntityType>
+        <EntityType Name="TSTTicket">
+          <Key>
+            <PropertyRef Name="TicketID" />
+          </Key>
+          <Property Name="TicketID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Subject" Type="String" MaxLength="75" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="TicketClassificationID" Type="Int32" Nullable="false" />
+          <Property Name="SubmittedBy" Type="Int32" Nullable="false" />
+          <Property Name="TechAssigned" Type="Int32" />
+          <Property Name="TicketStatusID" Type="Int32" Nullable="false" />
+          <Property Name="DateSubmitted" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="DateResolved" Type="DateTime" Precision="0" />
+          <Property Name="ProjectID" Type="Int32" Nullable="false" />
+          <Property Name="Attachment1" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Attachment2" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Tags" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="ResolutionID" Type="Int32" />
+          <NavigationProperty Name="TSTComments" Relationship="Self.FK_TSTComments_TSTTickets" FromRole="TSTTickets" ToRole="TSTComments" />
+          <NavigationProperty Name="TSTProject" Relationship="Self.FK_TSTTickets_TSTProjects" FromRole="TSTTickets" ToRole="TSTProjects" />
+          <NavigationProperty Name="TSTResolution" Relationship="Self.FK_TSTTickets_TSTResolutions" FromRole="TSTTickets" ToRole="TSTResolutions" />
+          <NavigationProperty Name="TSTTicketClassification" Relationship="Self.FK_TSTTickets_TSTTicketClassifications" FromRole="TSTTickets" ToRole="TSTTicketClassifications" />
+          <NavigationProperty Name="TSTTicketStatus" Relationship="Self.FK_TSTTickets_TSTTicketStatuses" FromRole="TSTTickets" ToRole="TSTTicketStatuses" />
+          <NavigationProperty Name="TSTUser" Relationship="Self.FK_TSTTickets_TSTUsers" FromRole="TSTTickets" ToRole="TSTUsers" />
+          <NavigationProperty Name="TSTUser1" Relationship="Self.FK_TSTTickets_TSTUsers1" FromRole="TSTTickets" ToRole="TSTUsers" />
+          <NavigationProperty Name="TSTUserNotifications" Relationship="Self.FK_TSTUserNotifications_TSTTickets" FromRole="TSTTickets" ToRole="TSTUserNotifications" />
+        </EntityType>
+        <EntityType Name="TSTTicketStatus">
+          <Key>
+            <PropertyRef Name="TicketStatusID" />
+          </Key>
+          <Property Name="TicketStatusID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="TSTTickets" Relationship="Self.FK_TSTTickets_TSTTicketStatuses" FromRole="TSTTicketStatuses" ToRole="TSTTickets" />
+        </EntityType>
+        <EntityType Name="TSTUserContact">
+          <Key>
+            <PropertyRef Name="ContactID" />
+          </Key>
+          <Property Name="ContactID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TSTUserID" Type="Int32" Nullable="false" />
+          <Property Name="FriendID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="TSTUser" Relationship="Self.FK_TSTUserContacts_TSTUsers" FromRole="TSTUserContacts" ToRole="TSTUsers" />
+          <NavigationProperty Name="TSTUser1" Relationship="Self.FK_TSTUserContacts_TSTUsers1" FromRole="TSTUserContacts" ToRole="TSTUsers" />
+        </EntityType>
+        <EntityType Name="TSTUserNotification">
+          <Key>
+            <PropertyRef Name="NotificationID" />
+          </Key>
+          <Property Name="NotificationID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TSTUserID" Type="Int32" Nullable="false" />
+          <Property Name="PostedBy" Type="Int32" Nullable="false" />
+          <Property Name="Message" Type="String" MaxLength="250" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="DateEntered" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="IsRead" Type="Boolean" Nullable="false" />
+          <Property Name="TicketID" Type="Int32" />
+          <NavigationProperty Name="TSTTicket" Relationship="Self.FK_TSTUserNotifications_TSTTickets" FromRole="TSTUserNotifications" ToRole="TSTTickets" />
+          <NavigationProperty Name="TSTUser" Relationship="Self.FK_TSTUserNotifications_TSTUsers" FromRole="TSTUserNotifications" ToRole="TSTUsers" />
+          <NavigationProperty Name="TSTUser1" Relationship="Self.FK_TSTUserNotifications_TSTUsers1" FromRole="TSTUserNotifications" ToRole="TSTUsers" />
+        </EntityType>
+        <EntityType Name="TSTUserPreference">
+          <Key>
+            <PropertyRef Name="UserPreferenceID" />
+          </Key>
+          <Property Name="UserPreferenceID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DisplayName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ShowStreetAddress" Type="Boolean" Nullable="false" />
+          <Property Name="ShowCityState" Type="Boolean" Nullable="false" />
+          <Property Name="ShowZip" Type="Boolean" Nullable="false" />
+          <Property Name="ShowCountry" Type="Boolean" Nullable="false" />
+          <Property Name="ShowEmail" Type="Boolean" Nullable="false" />
+          <Property Name="ShowBirthday" Type="Boolean" Nullable="false" />
+          <Property Name="EmailNotifications" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="TSTUsers" Relationship="Self.FK_TSTUsers_TSTUserPreferences" FromRole="TSTUserPreferences" ToRole="TSTUsers" />
+        </EntityType>
+        <EntityType Name="TSTUser">
+          <Key>
+            <PropertyRef Name="TSTUserID" />
+          </Key>
+          <Property Name="TSTUserID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FirstName" Type="String" MaxLength="25" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="LastName" Type="String" MaxLength="25" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="UserID" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="UserTitleID" Type="Int32" Nullable="false" />
+          <Property Name="StartDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="EndDate" Type="DateTime" Precision="0" />
+          <Property Name="Address1" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Address2" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="City" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="State" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Zip" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Country" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="UserPreferenceID" Type="Int32" />
+          <Property Name="DateOfBirth" Type="DateTime" Precision="0" />
+          <Property Name="Image" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="TSTComments" Relationship="Self.FK_TSTComments_TSTUsers" FromRole="TSTUsers" ToRole="TSTComments" />
+          <NavigationProperty Name="TSTMessages" Relationship="Self.FK_TSTMessages_TSTUsers" FromRole="TSTUsers" ToRole="TSTMessages" />
+          <NavigationProperty Name="TSTMessages1" Relationship="Self.FK_TSTMessages_TSTUsers1" FromRole="TSTUsers" ToRole="TSTMessages" />
+          <NavigationProperty Name="TSTProjects_Users" Relationship="Self.FK_TSTProjectUsers_TSTUsers" FromRole="TSTUsers" ToRole="TSTProjects_Users" />
+          <NavigationProperty Name="TSTResolutions" Relationship="Self.FK_TSTResolutions_TSTUsers" FromRole="TSTUsers" ToRole="TSTResolutions" />
+          <NavigationProperty Name="TSTTickets" Relationship="Self.FK_TSTTickets_TSTUsers" FromRole="TSTUsers" ToRole="TSTTickets" />
+          <NavigationProperty Name="TSTTickets1" Relationship="Self.FK_TSTTickets_TSTUsers1" FromRole="TSTUsers" ToRole="TSTTickets" />
+          <NavigationProperty Name="TSTUserContacts" Relationship="Self.FK_TSTUserContacts_TSTUsers" FromRole="TSTUsers" ToRole="TSTUserContacts" />
+          <NavigationProperty Name="TSTUserContacts1" Relationship="Self.FK_TSTUserContacts_TSTUsers1" FromRole="TSTUsers" ToRole="TSTUserContacts" />
+          <NavigationProperty Name="TSTUserNotifications" Relationship="Self.FK_TSTUserNotifications_TSTUsers" FromRole="TSTUsers" ToRole="TSTUserNotifications" />
+          <NavigationProperty Name="TSTUserNotifications1" Relationship="Self.FK_TSTUserNotifications_TSTUsers1" FromRole="TSTUsers" ToRole="TSTUserNotifications" />
+          <NavigationProperty Name="TSTUserPreference" Relationship="Self.FK_TSTUsers_TSTUserPreferences" FromRole="TSTUsers" ToRole="TSTUserPreferences" />
+          <NavigationProperty Name="TSTUserTitle" Relationship="Self.FK_TSTUsers_TSTUserTitles" FromRole="TSTUsers" ToRole="TSTUserTitles" />
+        </EntityType>
+        <EntityType Name="TSTUserTitle">
+          <Key>
+            <PropertyRef Name="UserTitleID" />
+          </Key>
+          <Property Name="UserTitleID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="TSTUsers" Relationship="Self.FK_TSTUsers_TSTUserTitles" FromRole="TSTUserTitles" ToRole="TSTUsers" />
+        </EntityType>
+        <Association Name="FK_TSTComments_TSTTickets">
+          <End Role="TSTTickets" Type="Self.TSTTicket" Multiplicity="1" />
+          <End Role="TSTComments" Type="Self.TSTComment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TSTTickets">
+              <PropertyRef Name="TicketID" />
+            </Principal>
+            <Dependent Role="TSTComments">
+              <PropertyRef Name="TicketID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TSTComments_TSTUsers">
+          <End Role="TSTUsers" Type="Self.TSTUser" Multiplicity="1" />
+          <End Role="TSTComments" Type="Self.TSTComment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TSTUsers">
+              <PropertyRef Name="TSTUserID" />
+            </Principal>
+            <Dependent Role="TSTComments">
+              <PropertyRef Name="PostedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TSTMessages_TSTUsers">
+          <End Role="TSTUsers" Type="Self.TSTUser" Multiplicity="1" />
+          <End Role="TSTMessages" Type="Self.TSTMessage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TSTUsers">
+              <PropertyRef Name="TSTUserID" />
+            </Principal>
+            <Dependent Role="TSTMessages">
+              <PropertyRef Name="Sender" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TSTMessages_TSTUsers1">
+          <End Role="TSTUsers" Type="Self.TSTUser" Multiplicity="1" />
+          <End Role="TSTMessages" Type="Self.TSTMessage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TSTUsers">
+              <PropertyRef Name="TSTUserID" />
+            </Principal>
+            <Dependent Role="TSTMessages">
+              <PropertyRef Name="Recipient" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TSTProjects_TSTProjectCategories">
+          <End Role="TSTProjectCategories" Type="Self.TSTProjectCategory" Multiplicity="1" />
+          <End Role="TSTProjects" Type="Self.TSTProject" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TSTProjectCategories">
+              <PropertyRef Name="ProjectCategoryID" />
+            </Principal>
+            <Dependent Role="TSTProjects">
+              <PropertyRef Name="ProjectCategoryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TSTProjectUsers_TSTProjects">
+          <End Role="TSTProjects" Type="Self.TSTProject" Multiplicity="1" />
+          <End Role="TSTProjects_Users" Type="Self.TSTProjects_Users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TSTProjects">
+              <PropertyRef Name="ProjectID" />
+            </Principal>
+            <Dependent Role="TSTProjects_Users">
+              <PropertyRef Name="ProjectID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TSTTickets_TSTProjects">
+          <End Role="TSTProjects" Type="Self.TSTProject" Multiplicity="1" />
+          <End Role="TSTTickets" Type="Self.TSTTicket" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TSTProjects">
+              <PropertyRef Name="ProjectID" />
+            </Principal>
+            <Dependent Role="TSTTickets">
+              <PropertyRef Name="ProjectID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TSTProjectUsers_TSTUsers">
+          <End Role="TSTUsers" Type="Self.TSTUser" Multiplicity="1" />
+          <End Role="TSTProjects_Users" Type="Self.TSTProjects_Users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TSTUsers">
+              <PropertyRef Name="TSTUserID" />
+            </Principal>
+            <Dependent Role="TSTProjects_Users">
+              <PropertyRef Name="TSTUserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TSTResolutions_TSTUsers">
+          <End Role="TSTUsers" Type="Self.TSTUser" Multiplicity="1" />
+          <End Role="TSTResolutions" Type="Self.TSTResolution" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TSTUsers">
+              <PropertyRef Name="TSTUserID" />
+            </Principal>
+            <Dependent Role="TSTResolutions">
+              <PropertyRef Name="PostedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TSTTickets_TSTResolutions">
+          <End Role="TSTResolutions" Type="Self.TSTResolution" Multiplicity="0..1" />
+          <End Role="TSTTickets" Type="Self.TSTTicket" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TSTResolutions">
+              <PropertyRef Name="ResolutionID" />
+            </Principal>
+            <Dependent Role="TSTTickets">
+              <PropertyRef Name="ResolutionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TSTTickets_TSTTicketClassifications">
+          <End Role="TSTTicketClassifications" Type="Self.TSTTicketClassification" Multiplicity="1" />
+          <End Role="TSTTickets" Type="Self.TSTTicket" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TSTTicketClassifications">
+              <PropertyRef Name="TicketClassificationID" />
+            </Principal>
+            <Dependent Role="TSTTickets">
+              <PropertyRef Name="TicketClassificationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TSTTickets_TSTTicketStatuses">
+          <End Role="TSTTicketStatuses" Type="Self.TSTTicketStatus" Multiplicity="1" />
+          <End Role="TSTTickets" Type="Self.TSTTicket" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TSTTicketStatuses">
+              <PropertyRef Name="TicketStatusID" />
+            </Principal>
+            <Dependent Role="TSTTickets">
+              <PropertyRef Name="TicketStatusID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TSTTickets_TSTUsers">
+          <End Role="TSTUsers" Type="Self.TSTUser" Multiplicity="1" />
+          <End Role="TSTTickets" Type="Self.TSTTicket" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TSTUsers">
+              <PropertyRef Name="TSTUserID" />
+            </Principal>
+            <Dependent Role="TSTTickets">
+              <PropertyRef Name="SubmittedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TSTTickets_TSTUsers1">
+          <End Role="TSTUsers" Type="Self.TSTUser" Multiplicity="0..1" />
+          <End Role="TSTTickets" Type="Self.TSTTicket" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TSTUsers">
+              <PropertyRef Name="TSTUserID" />
+            </Principal>
+            <Dependent Role="TSTTickets">
+              <PropertyRef Name="TechAssigned" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TSTUserNotifications_TSTTickets">
+          <End Role="TSTTickets" Type="Self.TSTTicket" Multiplicity="0..1" />
+          <End Role="TSTUserNotifications" Type="Self.TSTUserNotification" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TSTTickets">
+              <PropertyRef Name="TicketID" />
+            </Principal>
+            <Dependent Role="TSTUserNotifications">
+              <PropertyRef Name="TicketID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TSTUserContacts_TSTUsers">
+          <End Role="TSTUsers" Type="Self.TSTUser" Multiplicity="1" />
+          <End Role="TSTUserContacts" Type="Self.TSTUserContact" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TSTUsers">
+              <PropertyRef Name="TSTUserID" />
+            </Principal>
+            <Dependent Role="TSTUserContacts">
+              <PropertyRef Name="TSTUserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TSTUserContacts_TSTUsers1">
+          <End Role="TSTUsers" Type="Self.TSTUser" Multiplicity="1" />
+          <End Role="TSTUserContacts" Type="Self.TSTUserContact" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TSTUsers">
+              <PropertyRef Name="TSTUserID" />
+            </Principal>
+            <Dependent Role="TSTUserContacts">
+              <PropertyRef Name="FriendID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TSTUserNotifications_TSTUsers">
+          <End Role="TSTUsers" Type="Self.TSTUser" Multiplicity="1" />
+          <End Role="TSTUserNotifications" Type="Self.TSTUserNotification" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TSTUsers">
+              <PropertyRef Name="TSTUserID" />
+            </Principal>
+            <Dependent Role="TSTUserNotifications">
+              <PropertyRef Name="TSTUserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TSTUserNotifications_TSTUsers1">
+          <End Role="TSTUsers" Type="Self.TSTUser" Multiplicity="1" />
+          <End Role="TSTUserNotifications" Type="Self.TSTUserNotification" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TSTUsers">
+              <PropertyRef Name="TSTUserID" />
+            </Principal>
+            <Dependent Role="TSTUserNotifications">
+              <PropertyRef Name="PostedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TSTUsers_TSTUserPreferences">
+          <End Role="TSTUserPreferences" Type="Self.TSTUserPreference" Multiplicity="0..1" />
+          <End Role="TSTUsers" Type="Self.TSTUser" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TSTUserPreferences">
+              <PropertyRef Name="UserPreferenceID" />
+            </Principal>
+            <Dependent Role="TSTUsers">
+              <PropertyRef Name="UserPreferenceID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TSTUsers_TSTUserTitles">
+          <End Role="TSTUserTitles" Type="Self.TSTUserTitle" Multiplicity="1" />
+          <End Role="TSTUsers" Type="Self.TSTUser" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TSTUserTitles">
+              <PropertyRef Name="UserTitleID" />
+            </Principal>
+            <Dependent Role="TSTUsers">
+              <PropertyRef Name="UserTitleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="TSTEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="TSTComments" EntityType="Self.TSTComment" />
+          <EntitySet Name="TSTMessages" EntityType="Self.TSTMessage" />
+          <EntitySet Name="TSTProjectCategories" EntityType="Self.TSTProjectCategory" />
+          <EntitySet Name="TSTProjects" EntityType="Self.TSTProject" />
+          <EntitySet Name="TSTProjects_Users" EntityType="Self.TSTProjects_Users" />
+          <EntitySet Name="TSTResolutions" EntityType="Self.TSTResolution" />
+          <EntitySet Name="TSTTicketClassifications" EntityType="Self.TSTTicketClassification" />
+          <EntitySet Name="TSTTickets" EntityType="Self.TSTTicket" />
+          <EntitySet Name="TSTTicketStatuses" EntityType="Self.TSTTicketStatus" />
+          <EntitySet Name="TSTUserContacts" EntityType="Self.TSTUserContact" />
+          <EntitySet Name="TSTUserNotifications" EntityType="Self.TSTUserNotification" />
+          <EntitySet Name="TSTUserPreferences" EntityType="Self.TSTUserPreference" />
+          <EntitySet Name="TSTUsers" EntityType="Self.TSTUser" />
+          <EntitySet Name="TSTUserTitles" EntityType="Self.TSTUserTitle" />
+          <AssociationSet Name="FK_TSTComments_TSTTickets" Association="Self.FK_TSTComments_TSTTickets">
+            <End Role="TSTTickets" EntitySet="TSTTickets" />
+            <End Role="TSTComments" EntitySet="TSTComments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TSTComments_TSTUsers" Association="Self.FK_TSTComments_TSTUsers">
+            <End Role="TSTUsers" EntitySet="TSTUsers" />
+            <End Role="TSTComments" EntitySet="TSTComments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TSTMessages_TSTUsers" Association="Self.FK_TSTMessages_TSTUsers">
+            <End Role="TSTUsers" EntitySet="TSTUsers" />
+            <End Role="TSTMessages" EntitySet="TSTMessages" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TSTMessages_TSTUsers1" Association="Self.FK_TSTMessages_TSTUsers1">
+            <End Role="TSTUsers" EntitySet="TSTUsers" />
+            <End Role="TSTMessages" EntitySet="TSTMessages" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TSTProjects_TSTProjectCategories" Association="Self.FK_TSTProjects_TSTProjectCategories">
+            <End Role="TSTProjectCategories" EntitySet="TSTProjectCategories" />
+            <End Role="TSTProjects" EntitySet="TSTProjects" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TSTProjectUsers_TSTProjects" Association="Self.FK_TSTProjectUsers_TSTProjects">
+            <End Role="TSTProjects" EntitySet="TSTProjects" />
+            <End Role="TSTProjects_Users" EntitySet="TSTProjects_Users" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TSTTickets_TSTProjects" Association="Self.FK_TSTTickets_TSTProjects">
+            <End Role="TSTProjects" EntitySet="TSTProjects" />
+            <End Role="TSTTickets" EntitySet="TSTTickets" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TSTProjectUsers_TSTUsers" Association="Self.FK_TSTProjectUsers_TSTUsers">
+            <End Role="TSTUsers" EntitySet="TSTUsers" />
+            <End Role="TSTProjects_Users" EntitySet="TSTProjects_Users" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TSTResolutions_TSTUsers" Association="Self.FK_TSTResolutions_TSTUsers">
+            <End Role="TSTUsers" EntitySet="TSTUsers" />
+            <End Role="TSTResolutions" EntitySet="TSTResolutions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TSTTickets_TSTResolutions" Association="Self.FK_TSTTickets_TSTResolutions">
+            <End Role="TSTResolutions" EntitySet="TSTResolutions" />
+            <End Role="TSTTickets" EntitySet="TSTTickets" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TSTTickets_TSTTicketClassifications" Association="Self.FK_TSTTickets_TSTTicketClassifications">
+            <End Role="TSTTicketClassifications" EntitySet="TSTTicketClassifications" />
+            <End Role="TSTTickets" EntitySet="TSTTickets" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TSTTickets_TSTTicketStatuses" Association="Self.FK_TSTTickets_TSTTicketStatuses">
+            <End Role="TSTTicketStatuses" EntitySet="TSTTicketStatuses" />
+            <End Role="TSTTickets" EntitySet="TSTTickets" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TSTTickets_TSTUsers" Association="Self.FK_TSTTickets_TSTUsers">
+            <End Role="TSTUsers" EntitySet="TSTUsers" />
+            <End Role="TSTTickets" EntitySet="TSTTickets" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TSTTickets_TSTUsers1" Association="Self.FK_TSTTickets_TSTUsers1">
+            <End Role="TSTUsers" EntitySet="TSTUsers" />
+            <End Role="TSTTickets" EntitySet="TSTTickets" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TSTUserNotifications_TSTTickets" Association="Self.FK_TSTUserNotifications_TSTTickets">
+            <End Role="TSTTickets" EntitySet="TSTTickets" />
+            <End Role="TSTUserNotifications" EntitySet="TSTUserNotifications" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TSTUserContacts_TSTUsers" Association="Self.FK_TSTUserContacts_TSTUsers">
+            <End Role="TSTUsers" EntitySet="TSTUsers" />
+            <End Role="TSTUserContacts" EntitySet="TSTUserContacts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TSTUserContacts_TSTUsers1" Association="Self.FK_TSTUserContacts_TSTUsers1">
+            <End Role="TSTUsers" EntitySet="TSTUsers" />
+            <End Role="TSTUserContacts" EntitySet="TSTUserContacts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TSTUserNotifications_TSTUsers" Association="Self.FK_TSTUserNotifications_TSTUsers">
+            <End Role="TSTUsers" EntitySet="TSTUsers" />
+            <End Role="TSTUserNotifications" EntitySet="TSTUserNotifications" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TSTUserNotifications_TSTUsers1" Association="Self.FK_TSTUserNotifications_TSTUsers1">
+            <End Role="TSTUsers" EntitySet="TSTUsers" />
+            <End Role="TSTUserNotifications" EntitySet="TSTUserNotifications" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TSTUsers_TSTUserPreferences" Association="Self.FK_TSTUsers_TSTUserPreferences">
+            <End Role="TSTUserPreferences" EntitySet="TSTUserPreferences" />
+            <End Role="TSTUsers" EntitySet="TSTUsers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TSTUsers_TSTUserTitles" Association="Self.FK_TSTUsers_TSTUserTitles">
+            <End Role="TSTUserTitles" EntitySet="TSTUserTitles" />
+            <End Role="TSTUsers" EntitySet="TSTUsers" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="TSTModelStoreContainer" CdmEntityContainer="TSTEntities">
+          <EntitySetMapping Name="TSTComments">
+            <EntityTypeMapping TypeName="TSTModel.TSTComment">
+              <MappingFragment StoreEntitySet="TSTComments">
+                <ScalarProperty Name="CommentID" ColumnName="CommentID" />
+                <ScalarProperty Name="Comment" ColumnName="Comment" />
+                <ScalarProperty Name="PostedBy" ColumnName="PostedBy" />
+                <ScalarProperty Name="DatePosted" ColumnName="DatePosted" />
+                <ScalarProperty Name="TicketID" ColumnName="TicketID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TSTMessages">
+            <EntityTypeMapping TypeName="TSTModel.TSTMessage">
+              <MappingFragment StoreEntitySet="TSTMessages">
+                <ScalarProperty Name="MessageID" ColumnName="MessageID" />
+                <ScalarProperty Name="Sender" ColumnName="Sender" />
+                <ScalarProperty Name="Recipient" ColumnName="Recipient" />
+                <ScalarProperty Name="Subject" ColumnName="Subject" />
+                <ScalarProperty Name="Message" ColumnName="Message" />
+                <ScalarProperty Name="DateSent" ColumnName="DateSent" />
+                <ScalarProperty Name="IsRead" ColumnName="IsRead" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TSTProjectCategories">
+            <EntityTypeMapping TypeName="TSTModel.TSTProjectCategory">
+              <MappingFragment StoreEntitySet="TSTProjectCategories">
+                <ScalarProperty Name="ProjectCategoryID" ColumnName="ProjectCategoryID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TSTProjects">
+            <EntityTypeMapping TypeName="TSTModel.TSTProject">
+              <MappingFragment StoreEntitySet="TSTProjects">
+                <ScalarProperty Name="ProjectID" ColumnName="ProjectID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="ProjectCategoryID" ColumnName="ProjectCategoryID" />
+                <ScalarProperty Name="Website" ColumnName="Website" />
+                <ScalarProperty Name="Image" ColumnName="Image" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TSTProjects_Users">
+            <EntityTypeMapping TypeName="TSTModel.TSTProjects_Users">
+              <MappingFragment StoreEntitySet="TSTProjects_Users">
+                <ScalarProperty Name="Projects_UsersID" ColumnName="Projects_UsersID" />
+                <ScalarProperty Name="ProjectID" ColumnName="ProjectID" />
+                <ScalarProperty Name="TSTUserID" ColumnName="TSTUserID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TSTResolutions">
+            <EntityTypeMapping TypeName="TSTModel.TSTResolution">
+              <MappingFragment StoreEntitySet="TSTResolutions">
+                <ScalarProperty Name="ResolutionID" ColumnName="ResolutionID" />
+                <ScalarProperty Name="Problem" ColumnName="Problem" />
+                <ScalarProperty Name="Resolution" ColumnName="Resolution" />
+                <ScalarProperty Name="PostedBy" ColumnName="PostedBy" />
+                <ScalarProperty Name="DatePosted" ColumnName="DatePosted" />
+                <ScalarProperty Name="Attachment" ColumnName="Attachment" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TSTTicketClassifications">
+            <EntityTypeMapping TypeName="TSTModel.TSTTicketClassification">
+              <MappingFragment StoreEntitySet="TSTTicketClassifications">
+                <ScalarProperty Name="TicketClassificationID" ColumnName="TicketClassificationID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="PriorityLevel" ColumnName="PriorityLevel" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TSTTickets">
+            <EntityTypeMapping TypeName="TSTModel.TSTTicket">
+              <MappingFragment StoreEntitySet="TSTTickets">
+                <ScalarProperty Name="TicketID" ColumnName="TicketID" />
+                <ScalarProperty Name="Subject" ColumnName="Subject" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="TicketClassificationID" ColumnName="TicketClassificationID" />
+                <ScalarProperty Name="SubmittedBy" ColumnName="SubmittedBy" />
+                <ScalarProperty Name="TechAssigned" ColumnName="TechAssigned" />
+                <ScalarProperty Name="TicketStatusID" ColumnName="TicketStatusID" />
+                <ScalarProperty Name="DateSubmitted" ColumnName="DateSubmitted" />
+                <ScalarProperty Name="DateResolved" ColumnName="DateResolved" />
+                <ScalarProperty Name="ProjectID" ColumnName="ProjectID" />
+                <ScalarProperty Name="Attachment1" ColumnName="Attachment1" />
+                <ScalarProperty Name="Attachment2" ColumnName="Attachment2" />
+                <ScalarProperty Name="Tags" ColumnName="Tags" />
+                <ScalarProperty Name="ResolutionID" ColumnName="ResolutionID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TSTTicketStatuses">
+            <EntityTypeMapping TypeName="TSTModel.TSTTicketStatus">
+              <MappingFragment StoreEntitySet="TSTTicketStatuses">
+                <ScalarProperty Name="TicketStatusID" ColumnName="TicketStatusID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TSTUserContacts">
+            <EntityTypeMapping TypeName="TSTModel.TSTUserContact">
+              <MappingFragment StoreEntitySet="TSTUserContacts">
+                <ScalarProperty Name="ContactID" ColumnName="ContactID" />
+                <ScalarProperty Name="TSTUserID" ColumnName="TSTUserID" />
+                <ScalarProperty Name="FriendID" ColumnName="FriendID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TSTUserNotifications">
+            <EntityTypeMapping TypeName="TSTModel.TSTUserNotification">
+              <MappingFragment StoreEntitySet="TSTUserNotifications">
+                <ScalarProperty Name="NotificationID" ColumnName="NotificationID" />
+                <ScalarProperty Name="TSTUserID" ColumnName="TSTUserID" />
+                <ScalarProperty Name="PostedBy" ColumnName="PostedBy" />
+                <ScalarProperty Name="Message" ColumnName="Message" />
+                <ScalarProperty Name="DateEntered" ColumnName="DateEntered" />
+                <ScalarProperty Name="IsRead" ColumnName="IsRead" />
+                <ScalarProperty Name="TicketID" ColumnName="TicketID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TSTUserPreferences">
+            <EntityTypeMapping TypeName="TSTModel.TSTUserPreference">
+              <MappingFragment StoreEntitySet="TSTUserPreferences">
+                <ScalarProperty Name="UserPreferenceID" ColumnName="UserPreferenceID" />
+                <ScalarProperty Name="DisplayName" ColumnName="DisplayName" />
+                <ScalarProperty Name="ShowStreetAddress" ColumnName="ShowStreetAddress" />
+                <ScalarProperty Name="ShowCityState" ColumnName="ShowCityState" />
+                <ScalarProperty Name="ShowZip" ColumnName="ShowZip" />
+                <ScalarProperty Name="ShowCountry" ColumnName="ShowCountry" />
+                <ScalarProperty Name="ShowEmail" ColumnName="ShowEmail" />
+                <ScalarProperty Name="ShowBirthday" ColumnName="ShowBirthday" />
+                <ScalarProperty Name="EmailNotifications" ColumnName="EmailNotifications" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TSTUsers">
+            <EntityTypeMapping TypeName="TSTModel.TSTUser">
+              <MappingFragment StoreEntitySet="TSTUsers">
+                <ScalarProperty Name="TSTUserID" ColumnName="TSTUserID" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="UserTitleID" ColumnName="UserTitleID" />
+                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+                <ScalarProperty Name="Address1" ColumnName="Address1" />
+                <ScalarProperty Name="Address2" ColumnName="Address2" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="Zip" ColumnName="Zip" />
+                <ScalarProperty Name="Country" ColumnName="Country" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="UserPreferenceID" ColumnName="UserPreferenceID" />
+                <ScalarProperty Name="DateOfBirth" ColumnName="DateOfBirth" />
+                <ScalarProperty Name="Image" ColumnName="Image" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TSTUserTitles">
+            <EntityTypeMapping TypeName="TSTModel.TSTUserTitle">
+              <MappingFragment StoreEntitySet="TSTUserTitles">
+                <ScalarProperty Name="UserTitleID" ColumnName="UserTitleID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

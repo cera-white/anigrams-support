@@ -1,0 +1,82 @@
+﻿@model TST.DATA.EF.TSTTicket
+
+@{
+    ViewBag.Title = "Edit Ticket";
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="buttons-main">
+        <div class="progressbar-heading btn-main-heading">
+            <h2>Edit Ticket</h2>
+        </div>
+        <div class="btn-effcts panel-widget inbox-details-body compose-right">
+            <div class="button-heading">
+                <h4>#@Html.DisplayFor(model => model.TicketID): @Html.DisplayFor(model => model.Subject)</h4>
+                <p>in <a href="@Url.Action("Details", "Projects", new { @id = Model.TSTProject.ProjectID })">@Html.DisplayFor(model => model.TSTProject.Name)</a></p>
+                @Html.HiddenFor(model => model.TicketID)
+                @Html.HiddenFor(model => model.Subject)
+                @Html.HiddenFor(model => model.ProjectID)
+            </div>
+            <br />
+            <div style="font-size:1.1em;">
+                <p>@Html.DisplayFor(model => model.Description)</p>
+                @Html.HiddenFor(model => model.Description)
+            </div>
+            <br /><br />
+            <p class="tagline" style="font-style:italic"><i class="fa fa-pencil-square-o"></i> Submitted by <a href="@Url.Action("Details", "Users", new { @id = Model.TSTUser.TSTUserID })">@Html.DisplayFor(model => model.TSTUser.TSTUserPreference.DisplayName)</a> on @Html.DisplayFor(model => model.DateSubmitted)</p>
+            @Html.HiddenFor(model => model.SubmittedBy)
+            @Html.HiddenFor(model => model.DateSubmitted)
+            <hr />
+            <p class="tagline"><i class="fa fa-tags"></i> Tags</p> @Html.EditorFor(model => model.Tags)
+            @if (Model.Attachment1 != null)
+            {
+                <p class="tagline">
+                    <i class="fa fa-paperclip"></i> <a href="~/Content/attachments/@Model.Attachment1" target="_blank">@Html.DisplayFor(model => model.Attachment1)</a>
+                    @Html.HiddenFor(model => model.Attachment1)
+                    @if (Model.Attachment2 != null)
+                    {
+                        <i class="fa fa-paperclip"></i> <a href="~/Content/attachments/@Model.Attachment2" target="_blank">@Html.DisplayFor(model => model.Attachment2)</a>
+                        @Html.HiddenFor(model => model.Attachment2)
+                    }
+                </p>
+            }
+            else
+            {
+                <p class="tagline"><i class="fa fa-paperclip"></i> No files attached</p>
+            }
+            <hr />
+            <div class="table-responsive">
+                <table class="table no-lines">
+                    <tr>
+                        <td>Classification <a href="@Url.Action("Index", "TicketClassifications")" target="_blank"><i class="fa fa-question-circle"></i></a></td>
+                        <td>@Html.DropDownList("TicketClassificationID", null, htmlAttributes: new { @class = "form-control" })</td>
+                        <td>@Html.ValidationMessageFor(model => model.TicketClassificationID, "", new { @class = "text-danger" })</td>
+                    </tr>
+                    <tr>
+                        <td>Status <a href="@Url.Action("Index", "TicketStatuses")" target="_blank"><i class="fa fa-question-circle"></i></a></td>
+                        <td>@Html.DropDownList("TicketStatusID", null, htmlAttributes: new { @class = "form-control" })</td>
+                        <td>@Html.ValidationMessageFor(model => model.TicketStatusID, "", new { @class = "text-danger" })</td>
+                    </tr>
+                    <tr>
+                        <td>Tech Assigned</td>
+                        <td>@Html.DropDownList("TechAssigned", null, "[None Selected]", htmlAttributes: new { @class = "form-control" })</td>
+                        <td>@Html.ValidationMessageFor(model => model.TechAssigned, "", new { @class = "text-danger" })</td>
+                    </tr>
+                </table>
+                </div>
+                @Html.HiddenFor(model => model.ResolutionID)
+                @Html.HiddenFor(model => model.DateResolved)
+                <input type="submit" value="Save Changes" class="btn btn-primary" />
+            </div>
+
+        <br />
+        <a href="@Url.Action("Index", "Tickets")">Back to Tickets</a>
+
+    </div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

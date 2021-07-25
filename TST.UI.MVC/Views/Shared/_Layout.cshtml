@@ -1,0 +1,164 @@
+﻿@using TST.DATA.EF
+@{ TSTEntities db = new TSTEntities(); }
+<!--Author: W3layouts
+Author URL: http://w3layouts.com
+License: Creative Commons Attribution 3.0 Unported
+License URL: http://creativecommons.org/licenses/by/3.0/
+-->
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title | Anigrams Support</title>
+    <meta name="keywords" content="Cera A. White, Anigrams, Anigrams Productions, developer, .NET developer, portfolio, support, tech support, tickets, trouble tickets, games, websites, trouble tickets, ticket tracker" />
+    <meta name="author" content="Cera A. White" />
+    <meta http-equiv="content-language" content="en-us" />
+    @*<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>*@
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    <link href="~/Content/PagedList.css" rel="stylesheet" />
+    <!--static chart-->
+    <script src="~/Scripts/Chart.min.js"></script>
+    <!--//charts-->
+    
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat" rel="stylesheet" type="text/css" />
+</head>
+<body>
+    <div class="page-container">
+        <div class="left-content">
+            <div class="mother-grid-inner">
+                <!--header start here-->
+                <div class="header-main fixed">
+                    <div class="header-left">
+                        <div class="logo-name">
+                            <a href="@Url.Action("Index", "Home")">
+                                <h1>Anigrams Support</h1>
+                                <!--<img id="logo" src="" alt="Logo"/>-->
+                            </a>
+                        </div>
+                        <!--search-box-->
+                        <div class="search-box">
+                            @using (Html.BeginForm("Index", "Tickets", FormMethod.Post))
+                            {
+                                @Html.AntiForgeryToken()
+                                <input type="text" name="searchCriteria" placeholder="Search...">
+                                <input type="submit" value="">
+                            }
+                        </div><!--//end-search-box-->
+                        <div class="clearfix"> </div>
+                    </div>
+
+                    <div class="header-right">
+                        @if (Request.IsAuthenticated)
+                        {
+                            <div class="profile_details_left">
+                                <!--notifications of menu start -->
+                                <ul class="nofitications-dropdown">
+                                    @Html.Partial("_Messages", db.TSTMessages.ToList())
+                                    @Html.Partial("_Notifications", db.TSTUserNotifications.ToList())
+                                </ul>
+                                <div class="clearfix"> </div>
+                            </div>
+                        }
+
+                        <div class="profile_details">
+                            @Html.Partial("_LoginPartial")
+
+                        </div>
+                        <div class="clearfix"> </div>
+                    </div>
+                    <div class="clearfix"> </div>
+                </div>
+                <!--heder end here-->
+                <!-- script-for sticky-nav -->
+                <script>
+                    $(document).ready(function () {
+                        var navoffeset = $(".header-main").offset().top;
+                        $(window).scroll(function () {
+                            var scrollpos = $(window).scrollTop();
+                            if (scrollpos >= navoffeset) {
+                                $(".header-main").addClass("fixed");
+                            } else {
+                                $(".header-main").removeClass("fixed");
+                            }
+                        });
+
+                    });
+                </script>
+                <!-- /script-for sticky-nav -->
+                <!--inner block start here-->
+                <div class="inner-block">
+                    @RenderBody()
+                </div>
+                <!--inner block end here-->
+                <!--copy rights start here-->
+                <div class="copyrights">
+                    <p>&copy; @DateTime.Now.Year <a href="http://anigrams.org" target="_blank">Anigrams Productions</a>. All Rights Reserved | Design by <a href="http://w3layouts.com/" target="_blank">W3layouts</a> </p>
+                </div>
+                <!--COPY rights end here-->
+            </div>
+        </div>
+        <!--slider menu-->
+        <div class="sidebar-menu">
+            <div class="logo">
+                <a href="#" class="sidebar-icon"> <span class="fa fa-bars"></span> </a> <a href="#">
+                    <span id="logo"></span>
+                    <!--<img id="logo" src="" alt="Logo"/>-->
+                </a>
+            </div>
+            <div class="menu">
+                <ul id="menu">
+                    <li id="menu-home"><a href="@Url.Action("Index", "Home")"><i class="fa fa-tachometer"></i><span>Dashboard</span></a></li>
+                    @if (Request.IsAuthenticated && User.IsInRole("Admin"))
+                    {
+                        <li>
+                            <a href="#"><span class="fa fa-angle-right" style="float: right"></span><i class="fa fa-cog"></i><span>Admin</span></a>
+                            <ul id="menu-academico-sub">
+                                <li><a href="@Url.Action("Index", "ProjectCategories")">Project Categories</a></li>
+                                <li><a href="@Url.Action("Index", "TicketClassifications")">Ticket Classifications</a></li>
+                                <li><a href="@Url.Action("Index", "TicketStatuses")">Ticket Statuses</a></li>
+                                <li><a href="@Url.Action("Index", "UserTitles")">User Titles</a></li>
+                                <li><a href="@Url.Action("Index", "RolesAdmin")">User Roles</a></li>
+                                <li><a href="@Url.Action("Index", "UsersAdmin")">User Accounts</a></li>
+                            </ul>
+                        </li>
+                    }
+                    @if (Request.IsAuthenticated)
+                    {
+                        <li id="menu-projects"><a href="@Url.Action("Index", "Projects")"><i class="fa fa-cogs"></i><span>Projects</span></a></li>
+                        <li id="menu-tickets"><a href="@Url.Action("Index", "Tickets")"><i class="fa fa-file-text"></i><span>Tickets</span></a></li>
+                        <li id="menu-users"><a href="@Url.Action("Index", "Users")"><i class="fa fa-users"></i><span>Users</span></a></li>
+                    }
+                    <li id="menu-help"><a href="@Url.Action("Help", "Home")"><i class="fa fa-question-circle"></i><span>Help</span></a></li>
+                    <li id="menu-contact"><a href="@Url.Action("Contact", "Home")"><i class="fa fa-envelope"></i><span>Contact</span></a></li>
+
+                </ul>
+            </div>
+        </div>
+        <div class="clearfix"> </div>
+    </div>
+    <!--slide bar menu end here-->
+    <script>
+        var toggle = true;
+
+        $(".sidebar-icon").click(function () {
+            if (toggle) {
+                $(".page-container").addClass("sidebar-collapsed").removeClass("sidebar-collapsed-back");
+                $("#menu span").css({ "position": "absolute" });
+            }
+            else {
+                $(".page-container").removeClass("sidebar-collapsed").addClass("sidebar-collapsed-back");
+                setTimeout(function () {
+                    $("#menu span").css({ "position": "relative" });
+                }, 400);
+            }
+            toggle = !toggle;
+        });
+    </script>
+
+    @RenderSection("scripts", required: false)
+</body>
+</html>

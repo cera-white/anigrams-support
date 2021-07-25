@@ -1,0 +1,62 @@
+﻿@using Microsoft.AspNet.Identity
+@using TST.DATA.EF
+
+
+@{
+    TSTUser user = null;
+
+    if (Request.IsAuthenticated)
+    {
+        TSTEntities db = new TSTEntities();
+        string userID = User.Identity.GetUserId();
+        user = db.TSTUsers.Where(x => x.UserID == userID).SingleOrDefault();
+    }
+}
+
+@if (Request.IsAuthenticated)
+{
+    using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+    {
+        @Html.AntiForgeryToken()
+
+        <ul>
+            <li class="dropdown profile_details_drop">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                    <div class="profile_img">
+                        <div class="round pull-left">
+                            <img src="~/images/users/@user.Image" alt="@User.Identity.GetUserName()" width="60">
+                        </div>
+                        <div class="user-name">
+                            <p>@user.TSTUserPreference.DisplayName</p>
+                            <span>@user.TSTUserTitle.Name</span>
+                        </div>
+                        <i class="fa fa-angle-down lnr"></i>
+                        <i class="fa fa-angle-up lnr"></i>
+                        <div class="clearfix"></div>
+                    </div>
+                </a>
+                <ul class="dropdown-menu drp-mnu">
+                    <li><a href="@Url.Action("Details", "Users", new { @id = user.TSTUserID })"><i class="fa fa-user"></i> My Profile</a></li>
+                    <li> <a href="@Url.Action("Edit", "UserPreferences", new { @id = user.UserPreferenceID })"><i class="fa fa-cog"></i> Settings</a> </li>
+                    <li><a href="@Url.Action("Index","Messages")"><i class="fa fa-envelope-o"></i> Messages</a></li>
+                    <li> <a href="@Url.Action("Create", "Tickets")"><i class="fa fa-file-text-o"></i> Submit Issue</a> </li>
+                    <li><a href="javascript:document.getElementById('logoutForm').submit()"><i class="fa fa-sign-out"></i> Logout</a></li>
+                </ul>
+            </li>
+        </ul>
+
+        @*<ul class="nav navbar-nav navbar-right">
+                <li>
+                    @Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
+                </li>
+                <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
+            </ul>*@
+    }
+}
+else
+{
+    <ul class="nav navbar-nav navbar-right">
+        <li>@Html.ActionLink("Log In", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
+        <li>@Html.ActionLink("Sign Up", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
+    </ul>
+}

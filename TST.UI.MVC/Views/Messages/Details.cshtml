@@ -1,0 +1,70 @@
+﻿@model TST.DATA.EF.TSTMessage
+
+@{
+    ViewBag.Title = "Message Details";
+}
+
+<div class="pro-head">
+    <h2>Message Details</h2>
+</div>
+
+<div class="inbox">
+    <div class="col-md-4 compose">
+        <div class="compose-block">
+            <a href="@Url.Action("Create", "Messages")">Compose New</a>
+        </div>
+        <div class="compose-bottom">
+            <nav class="nav-sidebar">
+                <ul class="nav tabs">
+                    <li class="active"><a href="@Url.Action("Index", "Messages", new { @tab = "inbox" })"><i class="fa fa-inbox"></i>Inbox</a></li>
+                    <li class=""><a href="@Url.Action("Index", "Messages", new { @tab = "sent" })"><i class="fa fa-envelope-o"></i>Sent</a></li>
+                    <li class=""><a href="@Url.Action("Index", "Messages", new { @tab = "trash" })"><i class="fa fa-trash-o"></i>Trash</a></li>
+                </ul>
+            </nav>
+        </div>
+        <div class="compose-contacts">
+            <h3>Contacts</h3>
+            <nav class="nav-sidebar">
+                <ul class="nav tabs">
+                    @foreach (var item in ViewBag.Contacts)
+                    {
+                        <li><a href="@Url.Action("Create", "Messages", new { @user = item.TSTUserID })"><i class="fa fa-user"></i> @item.TSTUserPreference.DisplayName</a></li>
+                    }
+                </ul>
+            </nav>
+        </div>
+    </div>
+@using (Html.BeginForm())
+{
+    <div class="col-md-8 compose-right">
+        <div class="inbox-details-default">
+            <div class="inbox-details-heading">
+                <div class="pull-right">
+                    <a href="@Url.Action("Create", "Messages", new { @user = Model.Sender, @subject = "Re: " + Model.Subject })" class="btn btn-default"><i class="fa fa-reply"></i></a>
+                    <button type="submit" class="btn btn-default "><i class="fa fa-trash"></i></button>
+                </div>
+                @Html.DisplayFor(model => model.Subject)
+            </div>
+            <div class="inbox-details-body">
+                <div class="col-md-1">
+                    <div class="round"><img src="~/images/users/@Model.TSTUser.Image" alt="@Model.TSTUser.TSTUserPreference.DisplayName" width="60" /></div>
+                </div>
+                <div class="col-md-11" style="padding-left:4%">
+                    <div class="pull-right">
+                        @{
+                            var elapsed = string.Format("{0:n0}", DateTime.Now.Subtract(Model.DateSent).TotalHours);
+                        }
+                        <span style="font-size:.9em">@Html.DisplayFor(model => model.DateSent) (@elapsed hours ago)</span>
+                    </div>
+                    <label style="margin-bottom:0">@Html.DisplayFor(model => model.TSTUser.TSTUserPreference.DisplayName)</label><br />
+                    <span style="font-size:.9em">to @Html.DisplayFor(model => model.TSTUser1.TSTUserPreference.DisplayName)</span>
+                    <div class="clearfix"></div>
+                    <br />
+                    <p>@Html.Raw(Model.Message)</p>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+                            }
+</div>

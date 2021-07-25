@@ -1,0 +1,74 @@
+﻿@model IEnumerable<TST.DATA.EF.TSTTicketClassification>
+
+@{
+    ViewBag.Title = "Ticket Classifications";
+}
+
+<div class="price-block-main">
+    <div class="prices-head">
+        @if (User.IsInRole("Admin"))
+        {
+            <div class="pull-right" style="margin-right: 1%;">
+                <br />
+                <a href="@Url.Action("Create", "TicketClassifications")">Add New Classification</a>
+            </div>
+        }
+        <h2>Ticket Classifications</h2>
+    </div>
+    <div class="price-tables">
+        @{
+            int c = 1; //counter for clearfix
+            string activeClass = "pric-clr1";
+
+            foreach (var item in Model.Where(t => t.IsActive == true).OrderBy(t => t.PriorityLevel))
+            {
+                if (item.TicketClassificationID == 3)
+                {
+                    activeClass = "pric-clr2";
+                }
+                else if (item.TicketClassificationID == 2)
+                {
+                    activeClass = "pric-clr3";
+                }
+                else
+                {
+                    activeClass = "pric-clr1";
+                }
+            <div class="col-md-4 price-grid">
+                <div class="price-block">
+                    <div class="price-gd-top @activeClass">
+                        <h4>@Html.DisplayFor(modelItem => item.Name)</h4>
+                        <h3>@item.TSTTickets.Count()
+                        @if (item.TSTTickets.Count() == 1)
+                        {
+                            <span class="per-month">Ticket</span>
+                        }
+                        else
+                        {
+                            <span class="per-month">Tickets</span>
+                        }
+                        </h3>
+                        <h5>@Html.DisplayFor(modelItem => item.Description)</h5>
+                    </div>
+                    <div class="price-selet @activeClass">
+                        <a href="@Url.Action("Index", "Tickets", new { @cat = item.TicketClassificationID })">View Tickets</a>
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <a href="@Url.Action("Edit", "TicketClassifications", new { @id = item.TicketClassificationID })">Edit</a>
+                            <a href="@Url.Action("Delete", "TicketClassifications", new { @id = item.TicketClassificationID })">Delete</a>
+                        }
+                    </div>
+                </div>
+            </div>
+                if (c == 3)
+                {
+                    <div class="clearfix"> </div>
+                    c = 0;
+                }
+
+                c++;
+            } //end foreach
+        }
+        <div class="clearfix"></div>
+    </div>
+</div>

@@ -1,0 +1,97 @@
+﻿@model TST.DATA.EF.TSTResolution
+
+@{
+    ViewBag.Title = "Add Resolution";
+}
+
+<div class="buttons-main">
+    <div class="progressbar-heading btn-main-heading">
+        <h2>Edit Ticket</h2>
+    </div>
+    <div class="btn-effcts panel-widget inbox-details-body compose-right">
+        <div class="button-heading">
+            <h4>#@ViewBag.Ticket.TicketID: @ViewBag.Ticket.Subject</h4>
+            <p>in <a href="@Url.Action("Details", "Projects", new { @id = ViewBag.Ticket.ProjectID })">@ViewBag.Ticket.TSTProject.Name</a></p>
+        </div>
+        <br />
+        <div style="font-size:1.1em;">
+            <p>@ViewBag.Ticket.Description</p>
+        </div>
+        <br /><br />
+        <p class="tagline" style="font-style:italic"><i class="fa fa-pencil-square-o"></i> Submitted by <a href="@Url.Action("Details", "Users", new { @id = ViewBag.Ticket.TSTUser.TSTUserID })">@ViewBag.Ticket.TSTUser.TSTUserPreference.DisplayName</a> on @ViewBag.Ticket.DateSubmitted</p>
+        <hr />
+        <div class="pull-right" style="text-align:right;margin-right:1%;">
+            <p class="tagline classification">
+                Classification:
+                @if (ViewBag.Ticket.TSTTicketClassification.Name == "Fatal Error")
+                {
+                    <a href="@Url.Action("Index", "TicketClassifications")" class="label label-danger">@ViewBag.Ticket.TSTTicketClassification.Name</a>
+                }
+                else if (ViewBag.Ticket.TSTTicketClassification.Name == "Error" || ViewBag.Ticket.TSTTicketClassification.Name == "Glitch")
+                {
+                    <a href="@Url.Action("Index", "TicketClassifications")" class="label label-warning">@ViewBag.Ticket.TSTTicketClassification.Name</a>
+                }
+                else
+                {
+                    <a href="@Url.Action("Index", "TicketClassifications")" class="label label-success">@ViewBag.Ticket.TSTTicketClassification.Name</a>
+                }
+            </p>
+            <p class="tagline">Status: <a href="@Url.Action("Index", "TicketStatuses")">@ViewBag.Ticket.TSTTicketStatus.Name</a></p>
+        </div>
+        <p class="tagline"><i class="fa fa-tags"></i> @ViewBag.Ticket.Tags</p>
+        @if (ViewBag.Ticket.Attachment1 != null)
+        {
+            <p class="tagline">
+                <i class="fa fa-paperclip"></i> <a href="~/Content/attachments/@ViewBag.Ticket.Attachment1" target="_blank">@ViewBag.Ticket.Attachment1</a>
+                @if (ViewBag.Ticket.Attachment2 != null)
+                {
+                    <i class="fa fa-paperclip"></i> <a href="~/Content/attachments/@ViewBag.Ticket.Attachment2" target="_blank">@ViewBag.Ticket.Attachment2</a>
+                }
+            </p>
+        }
+        else
+        {
+            <p class="tagline"><i class="fa fa-paperclip"></i> No files attached</p>
+        }
+    </div>
+
+    @using (Html.BeginForm("Create", "Resolutions", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+        <div class="btn-effcts panel-widget inbox-details-body compose-right">
+            <div class="button-heading">
+                <h4>Technician's Notes</h4>
+            </div>
+            <div class="table-responsive">
+                <table class="table no-lines">
+                    <tbody>
+                        <tr>
+                            <td>Problem</td>
+                            <td>@Html.EditorFor(model => model.Problem, new { htmlAttributes = new { @class = "form-control" } })</td>
+                            <td>@Html.ValidationMessageFor(model => model.Problem, "", new { @class = "text-danger" })</td>
+                        </tr>
+                        <tr>
+                            <td>Resolution</td>
+                            <td>@Html.EditorFor(model => model.Resolution, new { htmlAttributes = new { @class = "form-control" } })</td>
+                            <td>@Html.ValidationMessageFor(model => model.Resolution, "", new { @class = "text-danger" })</td>
+                        </tr>
+                        <tr>
+                            <td>Attachment <span>(Optional)</span></td>
+                            <td>
+                                <input type="file" name="attachment" />
+                                @Html.ValidationMessageFor(model => model.Attachment, "", new { @class = "text-danger" })
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                </div>
+                <input type="submit" value="Save Changes" class="btn btn-primary" />
+            </div>
+    }
+    <br />
+    <a href="@Url.Action("Details", "Tickets", new { @id = ViewBag.Ticket.TicketID })">Back to Ticket</a>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

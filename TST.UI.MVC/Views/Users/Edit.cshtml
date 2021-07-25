@@ -1,0 +1,145 @@
+﻿@model TST.DATA.EF.TSTUser
+
+@{
+    ViewBag.Title = "Edit User";
+}
+
+<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+
+<script>
+  $(function() {
+    $( "#datepicker" ).datepicker();
+  });
+</script>
+
+@using (Html.BeginForm("Edit", "Users", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(model => model.TSTUserID)
+    @Html.HiddenFor(model => model.UserID)
+    @Html.HiddenFor(model => model.StartDate)
+    @Html.HiddenFor(model => model.EndDate)
+    @Html.HiddenFor(model => model.UserPreferenceID)
+    @Html.HiddenFor(model => model.IsActive)
+
+    <div class="pro-head">
+        <h2>Edit User Profile</h2>
+    </div>
+    <div class="inbox">
+        <div class="col-md-4 compose">
+            <div class="mail-profile">
+                <img src="~/images/users/@Model.Image" alt="@Model.TSTUserPreference.DisplayName" style="width: 100%;">
+                <div class="clearfix"> </div>
+            </div>
+            <div class="compose-block">
+                <label class="photoUpload">Change Profile Photo</label>
+                <input type="file" name="userImage" />
+                @Html.ValidationMessageFor(model => model.Image, "", new { @class = "text-danger" })
+                @Html.HiddenFor(model => model.Image)
+            </div>
+            <div class="compose-bottom">
+                <ul>
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <li><a href="@Url.Action("Delete", "Users", new { @id = Model.TSTUserID } )">Toggle Status</a></li>
+                    }
+                    <li><a href="@Url.Action("Index", "Users")">Back to Users</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-md-8 compose-right">
+            <div class="inbox-details-default">
+                <div class="inbox-details-body bs-example">
+                    <div class="table-responsive">
+                        <table class="table no-lines">
+                            <tbody>
+                                <tr>
+                                    <td><span>First Name</span></td>
+                                    <td colspan="2">@Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control" } })</td>
+                                    <td>@Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })</td>
+                                </tr>
+                                <tr>
+                                    <td><span>Last Name</span></td>
+                                    <td colspan="2">@Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control" } })</td>
+                                    <td>@Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })</td>
+                                </tr>
+                                @if (User.IsInRole("Admin"))
+                                {
+                                    <tr>
+                                        <td><span>Title</span></td>
+                                        <td colspan="2">@Html.DropDownList("UserTitleID", null, htmlAttributes: new { @class = "form-control" })</td>
+                                        <td>@Html.ValidationMessageFor(model => model.UserTitleID, "", new { @class = "text-danger" })</td>
+                                    </tr>
+                                }
+                                @Html.HiddenFor(model => model.UserTitleID)
+                                <tr>
+                                    <td><span>Email</span></td>
+                                    <td colspan="2">@Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })</td>
+                                    <td>@Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })</td>
+                                </tr>
+                                <tr>
+                                    <td><span>Date of Birth</span></td>
+                                    <td colspan="2">@Html.EditorFor(model => model.DateOfBirth, new { htmlAttributes = new { @class = "form-control", @id = "datepicker" } })</td>
+                                    <td>@Html.ValidationMessageFor(model => model.DateOfBirth, "", new { @class = "text-danger" })</td>
+                                </tr>
+                                <tr>
+                                    <td><span>Address Line 1</span></td>
+                                    <td colspan="2">@Html.EditorFor(model => model.Address1, new { htmlAttributes = new { @class = "form-control" } })</td>
+                                    <td>@Html.ValidationMessageFor(model => model.Address1, "", new { @class = "text-danger" })</td>
+                                </tr>
+                                <tr>
+                                    <td><span>Address Line 2</span></td>
+                                    <td colspan="2">@Html.EditorFor(model => model.Address2, new { htmlAttributes = new { @class = "form-control" } })</td>
+                                    <td>@Html.ValidationMessageFor(model => model.Address2, "", new { @class = "text-danger" })</td>
+                                </tr>
+                                <tr>
+                                    <td><span>City</span></td>
+                                    <td colspan="2">@Html.EditorFor(model => model.City, new { htmlAttributes = new { @class = "form-control" } })</td>
+                                    <td>@Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger" })</td>
+                                </tr>
+                                <tr>
+                                    <td><span>State/Region</span></td>
+                                    <td colspan="2">@Html.EditorFor(model => model.State, new { htmlAttributes = new { @class = "form-control" } })</td>
+                                    <td>@Html.ValidationMessageFor(model => model.State, "", new { @class = "text-danger" })</td>
+                                </tr>
+                                <tr>
+                                    <td><span>Postal Code</span></td>
+                                    <td colspan="2">@Html.EditorFor(model => model.Zip, new { htmlAttributes = new { @class = "form-control" } })</td>
+                                    <td>@Html.ValidationMessageFor(model => model.Zip, "", new { @class = "text-danger" })</td>
+                                </tr>
+                                <tr>
+                                    <td><span>Country</span></td>
+                                    <td colspan="2">@Html.EditorFor(model => model.Country, new { htmlAttributes = new { @class = "form-control" } })</td>
+                                    <td>@Html.ValidationMessageFor(model => model.Country, "", new { @class = "text-danger" })</td>
+                                </tr>
+
+                                @if (User.IsInRole("Admin"))
+                                {
+                                    <tr>
+                                        <td><span>Projects</span></td>
+                                        <td colspan="2">
+                                            @foreach (var item in (MultiSelectList)ViewBag.Projects)
+                                            {
+                                                <input type="checkbox" name="SelectedProjects" value="@item.Value" checked="@item.Selected" />
+                                                @item.Text
+                                                <br />
+                                            }
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                        </div>
+                        <input type="submit" value="Save Changes" class="btn btn-primary" />
+                        <div class="clearfix"></div>
+                    </div>
+            </div>
+        </div>
+    </div>
+}
+<div class="clearfix"> </div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

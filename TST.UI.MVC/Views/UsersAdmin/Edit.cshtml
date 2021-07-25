@@ -1,0 +1,54 @@
+﻿@model IdentitySample.Models.EditUserViewModel
+
+@{
+    ViewBag.Title = "Edit User Account";
+}
+
+<div class="pro-head">
+    <h2>Edit User Account</h2>
+</div>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    @Html.HiddenFor(model => model.Id)
+
+    <div class="chit-chat-layer1">
+        <div class="col-md-12 chit-chat-layer1-left">
+            <div class="work-progres">
+                <div class="table-responsive">
+                    <table class="table no-lines">
+                        <tbody>
+                            <tr>
+                                <td>Email</td>
+                                <td>@Html.TextBoxFor(m => m.Email, new { @class = "form-control" })</td>
+                                <td>@Html.ValidationMessageFor(model => model.Email)</td>
+                            </tr>
+                            <tr>
+                                <td>Roles</td>
+                                <td>
+                                    @foreach (var item in Model.RolesList)
+                                    {
+                                        <input type="checkbox" name="SelectedRole" value="@item.Value" checked="@item.Selected" class="checkbox-inline" />
+                                        @Html.Label(item.Value, new { @class = "control-label" })
+                                        <br />
+                                    }
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <input type="submit" value="Save Changes" class="btn btn-primary" />
+            </div>
+            <div class="clearfix"></div>
+            <br />
+            @Html.ActionLink("Back to Users", "Index")
+        </div>
+    </div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+

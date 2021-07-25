@@ -1,0 +1,68 @@
+﻿
+@{
+    ViewBag.Title = "Help";
+}
+
+<div class="blank">
+    <h2>Help &amp; Support</h2>
+
+    <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+            <div class="help-tab" role="tab" id="headingOne">
+                <h4>How to Use</h4>
+            </div>
+        </a>
+        <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+            <div class="blankpage-main">               
+                <h4>Technical Support</h4>
+                <p>If you have any questions about using or installing our games, or are having technical issues, you can <a href="@Url.Action("Create", "Tickets")" target="_blank">submit a trouble ticket</a> for review. Include as much information as you can, such as your operating system, what error message(s) you're getting, and even upload screenshots if possible. Any little bit helps!</p>
+                
+                <hr />
+
+                <h4>Feedback</h4>
+                <p>If you see something you think could be improved for a better experience, simply <a href="@Url.Action("Create", "Tickets")" target="_blank">submit a ticket</a> and mark it as a suggestion. We'll approve or deny it based on criteria such as how difficult and/or time-consuming it would be to implement, whether something similar has already been implemented, and whether it would fit the current goals and scope of the project. 
+                We appreciate every piece of feedback we get, even if your suggestion isn't approved right away.</p>
+                <br />
+                <p>Thank you for supporting Anigrams Productions!</p>
+            </div>
+        </div>
+        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+            <div class="help-tab" role="tab" id="headingTwo">
+                <h4>Anigrams Policies</h4>
+            </div>
+        </a>
+        <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+            <div class="blankpage-main">
+                <h4>Hints and Walkthroughs</h4>
+
+                <p>We will try to release official walkthroughs for the games that need them. Feel free to redistribute these walkthroughs or even write your own. But if you're stuck on something specific and can't find the answer in the walkthrough, <a href="@Url.Action("Contact", "Home")">send us a message</a> and we'll be happy to help.</p>
+                <hr />
+                <h4>"Let's Play" and Review Videos</h4>
+
+                <p>You have permission to record video footage of these games, even those that are released commercially, as long as your copy of the game was legally obtained. A link back to where to download the game would be nice, but isn't required by any means.</p>
+            </div>
+        </div>
+        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="true" aria-controls="collapseThree">
+            <div class="help-tab" role="tab" id="headingThree">
+                <h4>Resources</h4>
+            </div>
+        </a>
+        <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+            <div class="blankpage-main">
+                <h4>Guides &amp; Walkthroughs</h4>
+                <p><a href="http://anigrams.org/downloads/Memoirs-of-an-Angel-Walkthrough-1.3.txt" target="_blank">Memoirs of an Angel (2010) Walkthrough</a></p>
+
+                <hr />
+                <h4>Documentation</h4>
+                <p><a href="~/downloads/MeyerAccountingProjectReport.pdf" target="_blank">Meyer Accounting</a> (PDF)</p>
+                <p><a href="~/downloads/AnigramsSupportDocumentation.pdf" target="_blank">Anigrams Support</a> (PDF)</p>
+
+                <hr />
+                <h4>Professional Resources</h4>
+                <p><a href="http://anigrams.org/downloads/CeraWhiteResumeMain.pdf" target="_blank">Cera White - Main Resume</a> (PDF)</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="clearfix"></div>

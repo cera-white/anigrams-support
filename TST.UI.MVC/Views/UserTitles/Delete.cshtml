@@ -1,0 +1,43 @@
+﻿@model TST.DATA.EF.TSTUserTitle
+
+@{
+    ViewBag.Title = "Delete Title";
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="confirmation">
+        <h4>Are you sure you want to delete this item?</h4>
+
+        <input type="submit" value="Delete" class="btn btn-primary" /> @Html.ActionLink("Cancel", "Index")
+    </div>
+}
+
+<div class="price-block-main">
+    <div class="price-tables">
+            <div class="col-md-4 price-grid">
+                <div class="price-block">
+                    <div class="price-gd-top pric-clr1">
+                        <h4>@Html.DisplayFor(modelItem => Model.Name)</h4>
+                        <h3>
+                            @Model.TSTUsers.Count()
+                            @if (Model.TSTUsers.Count() == 1)
+                            {
+                                <span class="per-month">User</span>
+                            }
+                            else
+                            {
+                                <span class="per-month">Users</span>
+                            }
+                        </h3>
+                        <h5>@Html.DisplayFor(modelItem => Model.Description)</h5>
+                    </div>
+                    <div class="price-selet pric-clr1">
+                        <a href="@Url.Action("Index", "Users", new { @title = Model.UserTitleID })">View Users</a>
+                    </div>
+                </div>
+            </div>
+        <div class="clearfix"> </div>
+    </div>
+</div>

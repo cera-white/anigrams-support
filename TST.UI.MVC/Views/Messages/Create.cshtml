@@ -1,0 +1,67 @@
+﻿@using TST.DATA.EF
+@using Microsoft.AspNet.Identity
+@model TST.DATA.EF.TSTMessage
+
+@{
+    ViewBag.Title = "Compose Message";
+}
+
+<div class="pro-head">
+    <h2>Compose Message</h2>
+</div>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="inbox">
+        <div class="col-md-4 compose">
+            <div class="compose-block">
+                <a href="@Url.Action("Create", "Messages")">Compose New</a>
+            </div>
+            <div class="compose-bottom">
+                <nav class="nav-sidebar">
+                    <ul class="nav tabs">
+                        <li class="active"><a href="@Url.Action("Index", "Messages", new { @tab = "inbox" })"><i class="fa fa-inbox"></i>Inbox</a></li>
+                        <li class=""><a href="@Url.Action("Index", "Messages", new { @tab = "sent" })"><i class="fa fa-envelope-o"></i>Sent</a></li>
+                        <li class=""><a href="@Url.Action("Index", "Messages", new { @tab = "trash" })"><i class="fa fa-trash-o"></i>Trash</a></li>
+                    </ul>
+                </nav>
+            </div>
+            <div class="compose-contacts">
+                <h3>Contacts</h3>
+                <nav class="nav-sidebar">
+                    <ul class="nav tabs">
+                        @foreach (var item in ViewBag.Contacts)
+                        {
+                            <li><a href="@Url.Action("Create", "Messages", new { @user = item.TSTUserID })"><i class="fa fa-user"></i> @item.TSTUserPreference.DisplayName</a></li>
+                        }
+                    </ul>
+                </nav>
+            </div>
+        </div>
+        <div class="col-md-8 compose-right">
+            <div class="inbox-details-default">
+                <div class="inbox-details-heading">
+                    Compose New Message
+                </div>
+                <div class="inbox-details-body">
+                    @Html.DropDownList("Recipient", null, "[Send To]", htmlAttributes: new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Recipient, "", new { @class = "text-danger" })
+
+                    @Html.EditorFor(model => model.Subject, new { htmlAttributes = new { @class = "form-control", @placeholder = "Subject" } })
+                    @Html.ValidationMessageFor(model => model.Subject, "", new { @class = "text-danger" })
+
+                    @Html.EditorFor(model => model.Message, new { htmlAttributes = new { @class = "form-control", @placeholder = "Message" } })
+                    @Html.ValidationMessageFor(model => model.Message, "", new { @class = "text-danger" })
+                    <br />
+                    <input type="submit" value="Send Message">
+                </div>
+            </div>
+        </div>
+        <div class="clearfix"> </div>
+    </div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

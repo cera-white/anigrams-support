@@ -1,0 +1,69 @@
+﻿@using Microsoft.AspNet.Identity
+@model TST.DATA.EF.TSTUserPreference
+
+@{
+    ViewBag.Title = "Edit Preferences";
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="pro-head">
+        <h2>Edit User Preferences</h2>
+    </div>
+    <div class="inbox">
+        <div class="col-md-12 compose-right">
+            <div class="inbox-details-default">
+                <div class="inbox-details-body bs-example">
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    @Html.HiddenFor(model => model.UserPreferenceID)
+                    @Html.HiddenFor(model => model.DisplayName)
+                    <div class="table-responsive">
+                        <table class="table no-lines">
+                            <tbody>
+                                <tr>
+                                    <td>Display Name</td>
+                                    <td>@Html.DropDownList("DisplayNameOptions", null, htmlAttributes: new { @class = "form-control" })</td>
+                                    <td>@Html.ValidationMessageFor(model => model.DisplayName, "", new { @class = "text-danger" })</td>
+                                </tr>
+                                <tr>
+                                    <td>Display Address</td>
+                                    <td>@Html.DropDownList("DisplayAddressOptions", null, htmlAttributes: new { @class = "form-control" })</td>
+                                </tr>
+                                <tr>
+                                    <td>Additional Options</td>
+                                    <td>
+                                        @Html.CheckBoxFor(m => m.ShowEmail) Show Email Address <br />
+                                        @Html.CheckBoxFor(m => m.ShowBirthday) Show Birth Date <br /><br />
+
+                                        @if (ViewBag.EmailConfirmed)
+                                        {
+                                            @Html.CheckBoxFor(m => m.EmailNotifications)
+                                            <label style="font-weight:normal">Send me notification emails about ticket status updates</label>
+                                        }
+                                        else
+                                        {
+                                            <label style="font-weight:normal">Confirm your email address to enable email notifications.<br/>If you no longer have the confirmation email, <a href="@Url.Action("Contact", "Home")">contact us</a>.</label>
+                                        }
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <input type="submit" value="Save Changes" class="btn btn-primary" />
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<div class="clearfix"> </div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+
+

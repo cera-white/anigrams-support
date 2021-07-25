@@ -1,0 +1,58 @@
+﻿@model IEnumerable<TST.DATA.EF.TSTProject>
+
+@{
+    ViewBag.Title = "Projects";
+}
+
+<div class="product-block">
+    <div class="pro-head">
+        @if (User.IsInRole("Admin"))
+        {
+            <div class="pull-right" style="margin-right: 1%;">
+                <br />
+                <a href="@Url.Action("Create", "Projects")">Add New Project</a>
+            </div>
+        }
+        <h2>Projects</h2>
+    </div>
+    @{
+        int c = 1; //counter for clearfix
+
+        foreach (var item in Model)
+        {
+            <div class="col-md-3 product-grid">
+                <div class="product-items">
+                    <a href="@Url.Action("Details", "Projects", new { @id = item.ProjectID })">
+                        <div class="project-eff">
+                            <img class="img-responsive" src="~/images/projects/@item.Image" alt="@item.Name">
+                        </div>
+                    </a>
+                    <div class="produ-cost">
+                        <a href="@Url.Action("Details", "Projects", new { @id = item.ProjectID })">
+                            <h4>@item.Name</h4>
+                        </a>
+                        <h5><a href="@Url.Action("Index", "ProjectCategories")">@item.TSTProjectCategory.Name</a></h5>
+                    </div>
+                </div>
+            </div>
+
+            if (c == 4)
+            {
+                <div class="clearfix"> </div>
+                c = 0;
+            }
+
+            c++;
+        }//end foreach
+    }
+
+    @if (Request.QueryString["cat"] != null)
+    {
+        <div class="clearfix"></div>
+        <div class="col-md-3 product-grid">
+            <a href="@Url.Action("Index", "Projects")">Show all projects</a>
+        </div>
+    }
+
+    <div class="clearfix"> </div>
+</div>

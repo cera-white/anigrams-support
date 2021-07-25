@@ -1,0 +1,118 @@
+﻿@model TST.DATA.EF.TSTUser
+
+@{
+    ViewBag.Title = "Remove User";
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="confirmation">
+        <h4>Are you sure you want to delete this user?</h4>
+
+        <input type="submit" value="Delete" class="btn btn-primary" /> @Html.ActionLink("Cancel", "Index")
+    </div>
+}
+
+<div class="inbox">
+    <div class="col-md-4 compose">
+        <div class="mail-profile">
+            <img src="~/images/users/@Model.Image" alt="@Model.TSTUserPreference.DisplayName" style="width: 100%;">
+            <div class="clearfix"> </div>
+        </div>
+        <div class="compose-bottom">
+            <ul>
+                @if (Model.EndDate != null)
+                {
+                    <li><a class="hilate" href="#">Member from @Html.DisplayFor(model => model.StartDate) - @Html.DisplayFor(model => model.EndDate)</a></li>
+                }
+                else
+                {
+                    <li><a class="hilate" href="#">Member since @Html.DisplayFor(model => model.StartDate)</a></li>
+                }
+                <li><a href="@Url.Action("Index", "Users")">Back to Users</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="col-md-8 compose-right">
+        <div class="inbox-details-default">
+            <div class="inbox-details-body bs-example">
+                <h3>@Model.TSTUserPreference.DisplayName</h3>
+                <hr />
+                <div class="table-responsive">
+                    <table class="table no-lines">
+                        <tbody>
+                            <tr>
+                                <td><span>Title</span></td>
+                                <td>@Html.DisplayFor(model => model.TSTUserTitle.Name)</td>
+                            </tr>
+                            @if (Model.TSTUserPreference.ShowEmail == true)
+                            {
+                                <tr>
+                                    <td><span>Email</span></td>
+                                    <td>@Html.DisplayFor(model => model.Email)</td>
+                                </tr>
+                            }
+                            @if (!(Model.TSTUserPreference.ShowStreetAddress == false && Model.TSTUserPreference.ShowCityState == false && Model.TSTUserPreference.ShowZip == false && Model.TSTUserPreference.ShowCountry == false))
+                            {
+                                <tr>
+                                    <td><span>Address</span></td>
+                                    <td>
+                                        @if (Model.TSTUserPreference.ShowStreetAddress == true)
+                                        {
+                                            if (Model.Address1 != null)
+                                            {
+                                                @Html.DisplayFor(model => model.Address1)
+                                                <br />
+                                            }
+                                            if (Model.Address2 != null)
+                                            {
+                                                @Html.DisplayFor(model => model.Address2)
+                                                <br />
+                                            }
+                                        }
+                                        @if (Model.TSTUserPreference.ShowCityState == true)
+                                        {
+                                            if (Model.City != null)
+                                            {
+                                                @Html.DisplayFor(model => model.City)
+                                                <span style="margin: 0;">,</span>
+                                            }
+                                            if (Model.State != null)
+                                            {
+                                                @Html.DisplayFor(model => model.State)
+                                            }
+                                        }
+                                        @if (Model.TSTUserPreference.ShowZip == true && Model.Zip != null)
+                                        {
+                                            @Html.DisplayFor(model => model.Zip);
+
+                                        }
+                                        @if (Model.TSTUserPreference.ShowCountry == true && Model.Country != null)
+                                        {
+                                            <br />@Html.DisplayFor(model => model.Country);
+                                        }
+                                        @if (Model.Address1 == null && Model.Address2 == null && Model.City == null && Model.State == null && Model.Zip == null && Model.Country == null)
+                                        {
+                                            <p>No address listed</p>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                            @if (Model.TSTUserPreference.ShowBirthday == true && Model.DateOfBirth != null)
+                            {
+                                <tr>
+                                    <td><span>Birthday</span></td>
+                                    <td>@Html.DisplayFor(model => model.DateOfBirth)</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div class="clearfix"> </div>

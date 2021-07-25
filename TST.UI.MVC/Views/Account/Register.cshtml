@@ -1,0 +1,47 @@
+﻿@model IdentitySample.Models.RegisterViewModel
+@{
+    ViewBag.Title = "Sign Up";
+}
+
+<div class="login-page">
+    <div class="login-main">
+        <div class="login-head">
+            <h1>Sign Up</h1>
+        </div>
+        <div class="login-block">
+            @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary("", new { @class = "text-danger" })
+
+                @Html.TextBoxFor(m => m.FirstName, new { @placeholder = "First Name" })
+
+                @Html.TextBoxFor(m => m.LastName, new { @placeholder = "Last Name" })
+
+                @Html.TextBoxFor(m => m.Email, new { @placeholder = "Email" })
+
+                @Html.PasswordFor(m => m.Password, new { @placeholder = "Password" })
+
+                @Html.PasswordFor(m => m.ConfirmPassword, new { @placeholder = "Confirm Password" })
+
+                <div class="forgot-top-grids">
+                    <div class="forgot-grid">
+                        <div class="checkbox">
+                            @Html.CheckBoxFor(m => m.IsTester)
+                            @Html.LabelFor(m => m.IsTester, new { @class = "checkbox" })
+                        </div>
+                    </div>
+                    <div class="clearfix"> </div>
+                </div>
+
+                <input type="submit" name="Sign In" value="Sign Up" />
+                <h3>@Html.ActionLink("Already have an account? Log in", "Login")</h3>
+            }
+            <h5><a href="@Url.Action("Index", "Home")">Back to Home</a></h5>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

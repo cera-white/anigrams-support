@@ -1,0 +1,118 @@
+﻿@model TST.DATA.EF.TSTProject
+
+@{
+    ViewBag.Title = "Remove Project";
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="confirmation">
+        <h4>Are you sure you want to delete this project?</h4>
+
+        <input type="submit" value="Delete" class="btn btn-primary" /> @Html.ActionLink("Cancel", "Index")
+    </div>
+}
+
+<div class="inbox">
+    <div class="col-md-4 compose">
+        <div class="mail-profile">
+            <img src="~/images/projects/@Model.Image" alt="@Model.Name" style="width: 100%;">
+            <div class="clearfix"> </div>
+        </div>
+        <div class="compose-block">
+            <a href="http://@Model.Website" target="_blank">View Website</a>
+        </div>
+        <div class="compose-bottom">
+            <ul>
+                @if (User.IsInRole("Admin"))
+                {
+                    <li><a href="@Url.Action("Edit", "Projects", new { id = Model.ProjectID })">Edit Project</a></li>
+                    <li><a href="@Url.Action("Delete", "Projects", new { id = Model.ProjectID })">Remove Project</a></li>
+                }
+                <li><a href="@Url.Action("Index", "Projects")">Back to Projects</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="col-md-8 compose-right">
+        <div class="inbox-details-default">
+            <div class="inbox-details-body bs-example">
+                <h3>@Html.DisplayFor(model => model.Name)</h3>
+                <hr />
+                <div class="table-responsive">
+                    <table class="table no-lines">
+                        <tbody>
+                            <tr>
+                                <td><span>Category</span></td>
+                                <td colspan="2">@Html.DisplayFor(model => model.TSTProjectCategory.Name)</td>
+                            </tr>
+                            <tr>
+                                <td><span>Description</span></td>
+                                <td colspan="2">@Html.DisplayFor(model => model.Description)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    </div>
+                </div>
+        </div>
+
+        <br />
+
+        <div class="work-progres">
+            <div class="chit-chat-heading">
+                Trouble Tickets
+            </div>
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>No.</th>
+                            <th>Subject</th>
+
+                            <th>Classification</th>
+                            <th>Status</th>
+                            <th>Submitted</th>
+                            <th>Resolved</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.TSTTickets.OrderBy(t => t.TicketStatusID).ThenBy(t => t.DateSubmitted))
+                        {
+                            <tr>
+                                <td>@item.TicketID</td>
+                                <td><a href="@Url.Action("Details", "Tickets", new { @id = item.TicketID })">@item.Subject</a></td>
+
+                                @if (item.TSTTicketClassification.Name == "Fatal Error")
+                                {
+                                    <td><a href="@Url.Action("Index", "TicketClassifications")"><span class="label label-danger">@item.TSTTicketClassification.Name</span></a></td>
+                                }
+                                else if (item.TSTTicketClassification.Name == "Error" || item.TSTTicketClassification.Name == "Glitch")
+                                {
+                                    <td><a href="@Url.Action("Index", "TicketClassifications")"><span class="label label-warning">@item.TSTTicketClassification.Name</span></a></td>
+                                }
+                                else
+                                {
+                                    <td><a href="@Url.Action("Index", "TicketClassifications")"><span class="label label-success">@item.TSTTicketClassification.Name</span></a></td>
+                                }
+
+                                <td><a href="@Url.Action("Index", "TicketStatuses")">@item.TSTTicketStatus.Name</a></td>
+                                <td>@string.Format("{0:d}", item.DateSubmitted)</td>
+                                @if (item.DateResolved != null)
+                                {
+                                    <td>@string.Format("{0:d}", item.DateResolved)</td>
+                                }
+                                else
+                                {
+                                    <td>N/A</td>
+                                }
+
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="clearfix"> </div>
+</div>

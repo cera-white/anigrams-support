@@ -1,0 +1,108 @@
+﻿@using PagedList.Mvc
+@model IEnumerable<TST.DATA.EF.TSTTicket>
+
+@{
+    ViewBag.Title = "Tickets";
+}
+
+<div class="pro-head">
+    <div class="pull-right" style="margin-right: 1%;">
+        <br />
+        @if (Request.IsAuthenticated)
+        {
+            <a href="@Url.Action("Create", "Tickets")" class="btn btn-primary">Submit an Issue</a>
+        }
+        else
+        {
+            <a href="@Url.Action("Login", "Account")">Log in to submit an issue</a>
+        }
+    </div>
+    <h2>Tickets</h2>
+</div>
+
+<div class="chit-chat-layer1">
+    <div class="col-md-12 chit-chat-layer1-left">
+        <div class="work-progres">
+            <div class="chit-chat-heading" style="padding-bottom: 5px">
+                <div class="col-md-6" style="padding:0px">
+                    @ViewBag.Heading
+                </div>
+                @if (Request.IsAuthenticated)
+                {
+                    using (Html.BeginForm())
+                    {
+                        <div class="col-md-2" style="font-weight: normal;">
+                            @Html.DropDownList("ProjectID", null, "All Projects", htmlAttributes: new { @class = "form-control", @name = "selectedProject", @onchange = "this.form.submit();" })
+                        </div>
+                        <div class="col-md-2" style="font-weight: normal;">
+                            @Html.DropDownList("TicketClassificationID", null, "All Classifications", htmlAttributes: new { @class = "form-control", @name = "selectedClassification", @onchange = "this.form.submit();" })
+                        </div>
+                        <div class="col-md-2" style="font-weight: normal;">
+                            @Html.DropDownList("TicketStatusID", null, "All Statuses", htmlAttributes: new { @class = "form-control", @name = "selectedStatus", @onchange = "this.form.submit();" })
+                        </div>
+                    }
+                }
+
+                <div class="clearfix"></div>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>No.</th>
+                            <th>Subject</th>
+                            <th>Project</th>
+
+                            <th>Classification</th>
+                            <th>Status</th>
+                            <th>Submitted</th>
+                            <th>Resolved</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model.Count() > 0)
+                        {
+                            foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>@Html.DisplayFor(modelItem => item.TicketID)</td>
+                                    <td><a href="@Url.Action("Details", "Tickets", new { @id = item.TicketID })">@Html.DisplayFor(modelItem => item.Subject)</a></td>
+                                    <td>@Html.DisplayFor(modelItem => item.TSTProject.Name)</td>
+
+                                    @if (item.TSTTicketClassification.Name == "Fatal Error")
+                                    {
+                                        <td><a href="@Url.Action("Index", "TicketClassifications")"><span class="label label-danger">@Html.DisplayFor(modelItem => item.TSTTicketClassification.Name)</span></a></td>
+                                    }
+                                    else if (item.TSTTicketClassification.Name == "Error" || item.TSTTicketClassification.Name == "Glitch")
+                                    {
+                                        <td><a href="@Url.Action("Index", "TicketClassifications")"><span class="label label-warning">@Html.DisplayFor(modelItem => item.TSTTicketClassification.Name)</span></a></td>
+                                    }
+                                    else
+                                    {
+                                        <td><a href="@Url.Action("Index", "TicketClassifications")"><span class="label label-success">@Html.DisplayFor(modelItem => item.TSTTicketClassification.Name)</span></a></td>
+                                    }
+
+                                    <td><a href="@Url.Action("Index", "TicketStatuses")">@Html.DisplayFor(modelItem => item.TSTTicketStatus.Name)</a></td>
+                                    <td>@Html.DisplayFor(modelItem => item.DateSubmitted)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.DateResolved)</td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="7">No results matched your search. <a href="@Url.Action("Index", "Tickets")">See all tickets</a></td>
+                            </tr>
+                        }
+
+                    </tbody>
+                </table>
+                @if (((PagedList.IPagedList)Model).PageCount > 1)
+                {
+                    @Html.PagedListPager(((PagedList.IPagedList)Model), targetPage => Url.Action("Index", new { page = targetPage }))
+                }
+            </div>
+        </div>
+    </div>
+</div>
+<div class="clearfix"></div>

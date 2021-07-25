@@ -1,0 +1,97 @@
+﻿@using TST.DATA.EF
+@using Microsoft.AspNet.Identity
+@model IEnumerable<TST.DATA.EF.TSTMessage>
+
+@{
+    ViewBag.Title = "Message Inbox";
+}
+
+<div class="pro-head">
+    <h2>Inbox</h2>
+</div>
+
+@using (Html.BeginForm())
+{
+<div class="inbox">
+    <div class="col-md-4 compose">
+        <div class="compose-block">
+            <a href="@Url.Action("Create", "Messages")">Compose New</a>
+        </div>
+        <div class="compose-bottom">
+            <nav class="nav-sidebar">
+                <ul class="nav tabs">
+                    <li><a href="@Url.Action("Index", "Messages", new { @tab = "inbox" })"><i class="fa fa-inbox"></i>Inbox</a></li>
+                    <li><a href="@Url.Action("Index", "Messages", new { @tab = "sent" })"><i class="fa fa-envelope-o"></i>Sent</a></li>
+                    <li><a href="@Url.Action("Index", "Messages", new { @tab = "trash" })"><i class="fa fa-trash-o"></i>Trash</a></li>
+                </ul>
+            </nav>
+        </div>
+        <div class="compose-contacts">
+            <h3> Contacts</h3>
+            <nav class="nav-sidebar">
+                <ul class="nav tabs">
+                    @foreach (var item in ViewBag.Contacts)
+                    {
+                        <li><a href="@Url.Action("Create", "Messages", new { @user = item.TSTUserID })"><i class="fa fa-user"></i> @item.TSTUserPreference.DisplayName</a></li>
+                    }
+                </ul>
+            </nav>
+        </div>
+    </div>
+    <div class="col-md-8 mailbox-content">
+        <div class="mailbox-border">
+            <div class="mail-toolbar clearfix">
+                <div class="float-left">
+                    <a href="@Url.Action("Index", "Messages")" class="btn btn_1 btn-default mrg5R"><i class="fa fa-refresh"></i></a>
+
+                    @if (Request.QueryString["tab"] == null || Request.QueryString["tab"] == "inbox")
+                    {
+                        <button type="submit" class="btn btn_1 btn-default"><i class="fa fa-trash"></i> Send to Trash</button>
+                    }
+                    else if (Request.QueryString["tab"] == "trash")
+                    {
+                        <button type="submit" class="btn btn_1 btn-default"><i class="fa fa-inbox"></i> Move to Inbox</button>
+                    }
+
+                    <div class="clearfix"> </div>
+                </div>
+                <div class="pull-right">
+                    <span class="text-muted m-r-sm" style="margin-left:-5%;margin-right:5%">Showing @Model.Count() of @Model.Count() </span>
+                    <div class="btn-group">
+                        <a class="btn btn-default"><i class="fa fa-angle-left"></i></a>
+                        <a class="btn btn-default"><i class="fa fa-angle-right"></i></a>
+                    </div>
+                    <div class="clearfix"> </div>
+                </div>
+            </div>
+            <table class="table tab-border">
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        string readStatus = (item.IsRead) ? "read" : "unread";
+
+                        <tr class="@readStatus">
+                            <td class="hidden-xs">
+                                <input type="checkbox" class="checkbox" name="selectedObjects" value="@item.MessageID">
+                            </td>
+                            <td class="hidden-xs">
+                                <a href="@Url.Action("Details", "Users", new { @id = item.Sender })">
+                                    @Html.DisplayFor(modelItem => item.TSTUser.TSTUserPreference.DisplayName)
+                                </a>
+                            </td>
+                            <td>
+                                <a href="@Url.Action("Details", "Messages", new { @id = item.MessageID })">@Html.DisplayFor(modelItem => item.Subject)</a>
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.DateSent)
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+    <div class="clearfix"> </div>
+</div>
+}

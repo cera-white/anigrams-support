@@ -1,0 +1,400 @@
+﻿@using Microsoft.AspNet.Identity
+@using TST.DATA.EF
+@model IEnumerable<TSTTicket>
+
+@{
+    if (Request.IsAuthenticated)
+    {
+        ViewBag.Title = "Dashboard";
+    }
+    else
+    {
+        ViewBag.Title = "Welcome";
+    }
+
+    int c = 0; //counter for clearfix
+}
+
+@if (!Request.IsAuthenticated)
+{
+    <div class="blank">
+        <div class="blankpage-main" id="welcome">
+            <h2>Welcome to the Anigrams Support App</h2>
+
+            <p>
+                <strong>The purpose of this site</strong> is to collect feedback on all of the applications created or maintained by <a href="http://anigrams.org" target="_blank">Anigrams Productions</a>.
+            </p>
+            <p>
+                While using one of these applications, if you encounter an error, glitch, or simply have a suggestion to make, you can <a href="@Url.Action("Create", "Tickets")" target="_blank">submit a trouble ticket</a> for review (you will need to create an account and log in first).
+            </p>
+            <br />
+            <p><strong>Become an official beta tester</strong> for Anigrams games by <a href="@Url.Action("Register", "Account")">registering for an account</a> and choosing to opt in to the testing program. Your request will be reviewed and we'll contact you for more details, including which project(s) you would like to test for. Beta testers get early access to games as well as other perks!</p>
+            <br /><br />
+
+            @{
+                c = 1;
+
+                foreach (var item in ViewBag.Projects)
+                {
+                    <div class="col-md-3 product-grid">
+                        <div class="product-items">
+                            <a href="http://@item.Website" target="_blank">
+                                <div class="project-eff">
+                                    <img class="img-responsive" src="~/images/projects/@item.Image" alt="@item.Name">
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+
+                    if (c == 4)
+                    {
+                        <div class="clearfix"> </div>
+                        c = 0;
+                    }
+
+                    c++;
+                }//end foreach
+            }
+            <div class="clearfix"></div>
+
+            
+        </div>
+    </div>
+                }
+
+                else
+                {
+    <!--market updates updates-->
+                    <div class="market-updates">
+                        <div class="col-md-4 market-update-gd">
+                            <a href="@Url.Action("Index", "Tickets", new { status = "pending" })">
+                                <div class="market-update-block clr-block-1">
+                                    <div class="col-md-8 market-update-left">
+                                        <h3>@Model.Count(t => t.TicketStatusID == 1)</h3>
+                                        <h4>Pending Tickets</h4>
+                                        <p>Submitted but not yet reviewed.</p>
+                                    </div>
+                                    <div class="col-md-4 market-update-right">
+                                        <i class="fa fa-exclamation"> </i>
+                                    </div>
+                                    <div class="clearfix"> </div>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-md-4 market-update-gd">
+                            <a href="@Url.Action("Index", "Tickets", new { status = "open" })">
+                                <div class="market-update-block clr-block-2">
+                                    <div class="col-md-8 market-update-left">
+                                        <h3>@Model.Count(t => t.TicketStatusID == 2 || t.TicketStatusID == 4)</h3>
+                                        <h4>Open Tickets</h4>
+                                        <p>Reviewed and being worked on.</p>
+                                    </div>
+                                    <div class="col-md-4 market-update-right">
+                                        <i class="fa fa-wrench"> </i>
+                                    </div>
+                                    <div class="clearfix"> </div>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-md-4 market-update-gd">
+                            <a href="@Url.Action("Index", "Tickets", new { status = "closed" })">
+                                <div class="market-update-block clr-block-3">
+                                    <div class="col-md-8 market-update-left">
+                                        <h3>@Model.Count(t => t.TicketStatusID == 3 || t.TicketStatusID == 5)</h3>
+                                        <h4>Closed Tickets</h4>
+                                        <p>Issues that have been resolved.</p>
+                                    </div>
+                                    <div class="col-md-4 market-update-right">
+                                        <i class="fa fa-check"> </i>
+                                    </div>
+                                    <div class="clearfix"> </div>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="clearfix"> </div>
+                    </div>
+    <!--market updates end here-->
+                }
+
+<!--mainpage chit-chating-->
+<div class="chit-chat-layer1">
+    @if (Request.IsAuthenticated)
+    {
+        c = 1;
+        <div class="col-md-6 chit-chat-layer1-left">
+            <div class="work-progres">
+                <div class="chit-chat-heading">
+                    Submitted By Me
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>No.</th>
+                                <th>Subject</th>
+                                <th>Project</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model.Where(t => t.SubmittedBy == ViewBag.User && (t.TicketStatusID == 1 || t.TicketStatusID == 2 || t.TicketStatusID == 4)).Count() > 0)
+                            {
+                                foreach (var item in Model.Where(t => t.SubmittedBy == ViewBag.User && (t.TicketStatusID == 1 || t.TicketStatusID == 2 || t.TicketStatusID == 4)).OrderBy(t => t.TicketStatusID).ThenBy(t => t.DateSubmitted))
+                                {
+                                    <tr>
+                                        <td>@Html.DisplayFor(modelItem => item.TicketID)</td>
+                                        <td class="subject"><a href="@Url.Action("Details", "Tickets", new { @id = item.TicketID })">@Html.DisplayFor(modelItem => item.Subject)</a></td>
+                                        <td class="subject">@Html.DisplayFor(modelItem => item.TSTProject.Name)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.TSTTicketStatus.Name)</td>
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td colspan="4">There are no pending, open, or approved tickets for this user.</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        if (User.IsInRole("Tech") || User.IsInRole("Admin"))
+        {
+            c = 0;
+            <div class="col-md-6 chit-chat-layer1-left">
+                <div class="work-progres">
+                    <div class="chit-chat-heading">
+                        Assigned To Me
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>No.</th>
+                                    <th>Subject</th>
+                                    <th>Project</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (Model.Where(t => t.TechAssigned == ViewBag.User && (t.TicketStatusID == 1 || t.TicketStatusID == 2 || t.TicketStatusID == 4)).Count() > 0)
+                                {
+                                    foreach (var item in Model.Where(t => t.TechAssigned == ViewBag.User && (t.TicketStatusID == 1 || t.TicketStatusID == 2 || t.TicketStatusID == 4)).OrderBy(t => t.TicketStatusID).ThenBy(t => t.DateSubmitted))
+                                    {
+                                        <tr>
+                                            <td>@Html.DisplayFor(modelItem => item.TicketID)</td>
+                                            <td class="subject"><a href="@Url.Action("Details", "Tickets", new { @id = item.TicketID })">@Html.DisplayFor(modelItem => item.Subject)</a></td>
+                                            <td class="subject">@Html.DisplayFor(modelItem => item.TSTProject.Name)</td>
+                                            <td>@Html.DisplayFor(modelItem => item.TSTTicketStatus.Name)</td>
+                                        </tr>
+                                    }
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td colspan="4">There are no pending, open, or approved tickets for this user.</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="clearfix"> </div>
+        } @*//end if tech or admin*@
+    }
+
+    @if (Request.IsAuthenticated && ViewBag.Projects != null)
+    {
+        foreach (var project in ViewBag.Projects)
+        {
+            <div class="col-md-6 chit-chat-layer1-left">
+                <div class="work-progres">
+                    <div class="chit-chat-heading">
+                        <a href="@Url.Action("Details", "Projects", new { @id = project.ProjectID })">@project.Name</a>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>No.</th>
+                                    <th>Subject</th>
+                                    <th>Status</th>
+                                    <th>Submitted</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (Model.Where(t => t.ProjectID == project.ProjectID && (t.TicketStatusID == 1 || t.TicketStatusID == 2 || t.TicketStatusID == 4)).Count() > 0)
+                                {
+                                    foreach (var item in Model.Where(t => t.ProjectID == project.ProjectID && (t.TicketStatusID == 1 || t.TicketStatusID == 2 || t.TicketStatusID == 4)).OrderBy(t => t.TicketStatusID).ThenBy(t => t.DateSubmitted))
+                                    {
+                                        <tr>
+                                            <td>@Html.DisplayFor(modelItem => item.TicketID)</td>
+                                            <td class="subject"><a href="@Url.Action("Details", "Tickets", new { @id = item.TicketID })">@Html.DisplayFor(modelItem => item.Subject)</a></td>
+                                            <td>@Html.DisplayFor(modelItem => item.TSTTicketStatus.Name)</td>
+                                            <td>@Html.DisplayFor(modelItem => item.DateSubmitted)</td>
+                                        </tr>
+                                    }
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td colspan="4">There are no pending, open, or approved tickets for this project.</td>
+                                    </tr>
+                                }
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            if (c == 1)
+            {
+                <div class="clearfix"></div>
+                c = 0;
+            }
+            else
+            {
+                c = 1;
+            }
+        } @*end foreach project*@
+    }
+
+    @if (Request.IsAuthenticated)
+    {
+        <div class="clearfix"></div>
+
+        <div class="col-md-6 chart-blo-1">
+            <div class="chart-other">
+                <h3 class="tlt">Critical v. Non-Critical Issues</h3>
+                <canvas id="pie" style="width:540px; height: 325px; margin: .9em 0;" width="540" height="325"></canvas>
+                <script>
+                    var ctx = document.getElementById("pie").getContext("2d");
+                    var pie = new Chart(ctx, {
+                        type: 'pie',
+                        data: {
+                            labels: [
+                                "Fatal Errors",
+                                "Minor Errors",
+                                "Suggestions"
+                            ],
+                            datasets: [
+                            {
+                                data: [
+                                    @Model.Count(t => t.TicketClassificationID == 2),
+                                    @Model.Count(t => t.TicketClassificationID == 1 || t.TicketClassificationID == 4),
+                                    @Model.Count(t => t.TicketClassificationID == 3)
+                                ],
+                                backgroundColor: [
+                                    "#E07D28",
+                                    "#1A63A0",
+                                    "#78A239"
+                                ],
+                                hoverBackgroundColor: [
+                                    "#CC660E",
+                                    "#09375F",
+                                    "#467501"
+                                ]
+                            }]
+                        },
+                        options: {
+                            legend: {
+                                display: true,
+                                fullWidth: true,
+                                labels: {
+                                    fontSize: 16,
+                                    fontFamily: "'OpenSans-Regular', sans-serif"
+                                }
+                            }
+                        }
+                    });
+                </script>
+            </div>
+        </div>
+
+        <div class="col-md-6 chart-blo-1">
+            <div class="line-chart">
+                @{
+                    DateTime month = DateTime.Today.AddDays(-(DateTime.Today.Day - 1));
+                }
+                <h3 class="tlt">Submitted v. Resolved Tickets (Last 8 Months)</h3>
+                <canvas id="line" height="270" width="500"></canvas>
+                <script>
+                    var ctx = document.getElementById("line").getContext("2d");
+                    var lineChart = new Chart(ctx, {
+                        type: 'line',
+                        data: {
+                            labels: [
+                                "@month.AddMonths(-7).ToString("MMMM")",
+                                "@month.AddMonths(-6).ToString("MMMM")",
+                                "@month.AddMonths(-5).ToString("MMMM")",
+                                "@month.AddMonths(-4).ToString("MMMM")",
+                                "@month.AddMonths(-3).ToString("MMMM")",
+                                "@month.AddMonths(-2).ToString("MMMM")",
+                                "@month.AddMonths(-1).ToString("MMMM")",
+                                "@month.ToString("MMMM")"
+                            ],
+                            datasets: [
+                                {
+                                    label: "Resolved",
+                                    backgroundColor: "rgba(51, 122, 183, 0.7)",
+                                    borderColor: "#337AB7",
+                                    pointBackgroundColor: "#337AB7",
+                                    pointBorderColor: "#fff",
+                                    data: [
+                                        @Model.Count(t => t.DateResolved >= month.AddMonths(-7) && t.DateResolved < month.AddMonths(-6)),
+                                        @Model.Count(t => t.DateResolved >= month.AddMonths(-6) && t.DateResolved < month.AddMonths(-5)),
+                                        @Model.Count(t => t.DateResolved >= month.AddMonths(-5) && t.DateResolved < month.AddMonths(-4)),
+                                        @Model.Count(t => t.DateResolved >= month.AddMonths(-4) && t.DateResolved < month.AddMonths(-3)),
+                                        @Model.Count(t => t.DateResolved >= month.AddMonths(-3) && t.DateResolved < month.AddMonths(-2)),
+                                        @Model.Count(t => t.DateResolved >= month.AddMonths(-2) && t.DateResolved < month.AddMonths(-1)),
+                                        @Model.Count(t => t.DateResolved >= month.AddMonths(-1) && t.DateResolved < month),
+                                        @Model.Count(t => t.DateResolved >= month && t.DateResolved < month.AddMonths(1))
+                                    ]
+                                },
+                                {
+                                    label: "Submitted",
+                                    backgroundColor: "rgba(252, 130, 19, 0.6)",
+                                    borderColor: "#FC8213",
+                                    pointBackgroundColor: "#FC8213",
+                                    pointBorderColor: "#fff",
+                                    data: [
+                                        @Model.Count(t => t.DateSubmitted >= month.AddMonths(-7) && t.DateSubmitted < month.AddMonths(-6)),
+                                        @Model.Count(t => t.DateSubmitted >= month.AddMonths(-6) && t.DateSubmitted < month.AddMonths(-5)),
+                                        @Model.Count(t => t.DateSubmitted >= month.AddMonths(-5) && t.DateSubmitted < month.AddMonths(-4)),
+                                        @Model.Count(t => t.DateSubmitted >= month.AddMonths(-4) && t.DateSubmitted < month.AddMonths(-3)),
+                                        @Model.Count(t => t.DateSubmitted >= month.AddMonths(-3) && t.DateSubmitted < month.AddMonths(-2)),
+                                        @Model.Count(t => t.DateSubmitted >= month.AddMonths(-2) && t.DateSubmitted < month.AddMonths(-1)),
+                                        @Model.Count(t => t.DateSubmitted >= month.AddMonths(-1) && t.DateSubmitted < month),
+                                        @Model.Count(t => t.DateSubmitted >= month && t.DateSubmitted < month.AddMonths(1))
+                                    ]
+                                }
+
+                            ]
+                        },
+                        options: {
+                            legend: {
+                                display: true,
+                                fullWidth: true,
+                                labels: {
+                                    fontSize: 13,
+                                    fontFamily: "'OpenSans-Regular', sans-serif"
+                                }
+                            }
+                        }
+                    });
+
+                </script>
+            </div>
+        </div>
+
+                    }
+
+</div>
+
+<div class="clearfix"></div>
+
+

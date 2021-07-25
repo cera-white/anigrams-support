@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="aa5f7538d55f4d3380d96674b2cc9c40" Name="Diagram1">
+        <EntityTypeShape EntityType="TSTModel.TSTComment" Width="1.5" PointX="8.25" PointY="9.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="TSTModel.TSTMessage" Width="1.5" PointX="5.25" PointY="9.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="TSTModel.TSTProjectCategory" Width="1.5" PointX="3.75" PointY="3.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="TSTModel.TSTProject" Width="1.5" PointX="6" PointY="3.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="TSTModel.TSTProjects_Users" Width="1.5" PointX="8.25" PointY="6.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="TSTModel.TSTResolution" Width="1.5" PointX="5.25" PointY="15.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="TSTModel.TSTTicketClassification" Width="1.5" PointX="5.25" PointY="22.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="TSTModel.TSTTicket" Width="1.5" PointX="7.5" PointY="13" IsExpanded="true" />
+        <EntityTypeShape EntityType="TSTModel.TSTTicketStatus" Width="1.5" PointX="5.25" PointY="25.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="TSTModel.TSTUserContact" Width="1.5" PointX="5.25" PointY="19" IsExpanded="true" />
+        <EntityTypeShape EntityType="TSTModel.TSTUserNotification" Width="1.5" PointX="10.75" PointY="11.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="TSTModel.TSTUserPreference" Width="1.5" PointX="0.75" PointY="9.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="TSTModel.TSTUser" Width="1.5" PointX="3" PointY="7.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="TSTModel.TSTUserTitle" Width="1.5" PointX="0.75" PointY="5.625" IsExpanded="true" />
+        <AssociationConnector Association="TSTModel.FK_TSTComments_TSTTickets" ManuallyRouted="false" />
+        <AssociationConnector Association="TSTModel.FK_TSTComments_TSTUsers" ManuallyRouted="false" />
+        <AssociationConnector Association="TSTModel.FK_TSTMessages_TSTUsers" ManuallyRouted="false" />
+        <AssociationConnector Association="TSTModel.FK_TSTMessages_TSTUsers1" ManuallyRouted="false" />
+        <AssociationConnector Association="TSTModel.FK_TSTProjects_TSTProjectCategories" ManuallyRouted="false" />
+        <AssociationConnector Association="TSTModel.FK_TSTProjectUsers_TSTProjects" ManuallyRouted="false" />
+        <AssociationConnector Association="TSTModel.FK_TSTTickets_TSTProjects" ManuallyRouted="false" />
+        <AssociationConnector Association="TSTModel.FK_TSTProjectUsers_TSTUsers" ManuallyRouted="false" />
+        <AssociationConnector Association="TSTModel.FK_TSTResolutions_TSTUsers" ManuallyRouted="false" />
+        <AssociationConnector Association="TSTModel.FK_TSTTickets_TSTResolutions" ManuallyRouted="false" />
+        <AssociationConnector Association="TSTModel.FK_TSTTickets_TSTTicketClassifications" ManuallyRouted="false" />
+        <AssociationConnector Association="TSTModel.FK_TSTTickets_TSTTicketStatuses" ManuallyRouted="false" />
+        <AssociationConnector Association="TSTModel.FK_TSTTickets_TSTUsers" ManuallyRouted="false" />
+        <AssociationConnector Association="TSTModel.FK_TSTTickets_TSTUsers1" ManuallyRouted="false" />
+        <AssociationConnector Association="TSTModel.FK_TSTUserNotifications_TSTTickets" ManuallyRouted="false" />
+        <AssociationConnector Association="TSTModel.FK_TSTUserContacts_TSTUsers" ManuallyRouted="false" />
+        <AssociationConnector Association="TSTModel.FK_TSTUserContacts_TSTUsers1" ManuallyRouted="false" />
+        <AssociationConnector Association="TSTModel.FK_TSTUserNotifications_TSTUsers" ManuallyRouted="false" />
+        <AssociationConnector Association="TSTModel.FK_TSTUserNotifications_TSTUsers1" ManuallyRouted="false" />
+        <AssociationConnector Association="TSTModel.FK_TSTUsers_TSTUserPreferences" ManuallyRouted="false" />
+        <AssociationConnector Association="TSTModel.FK_TSTUsers_TSTUserTitles" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

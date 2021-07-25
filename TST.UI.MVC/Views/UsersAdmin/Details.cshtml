@@ -1,0 +1,53 @@
+﻿@model IdentitySample.Models.ApplicationUser
+
+@{
+    ViewBag.Title = "Account Details";
+}
+
+<div class="pro-head">
+    <div class="pull-right" style="margin-right: 1%">
+        <br />
+        <a href="@Url.Action("Edit", "UsersAdmin", new { id = Model.Id })" class="btn btn-primary">Edit User Account</a>
+    </div>
+    <h2>Account Details</h2>
+</div>
+
+<div class="chit-chat-layer1">
+    <div class="col-md-12 chit-chat-layer1-left">
+        <div class="work-progres">
+            <div class="table-responsive">
+                <table class="table no-lines">
+                    <tbody>
+                        <tr>
+                            <td>Username</td>
+                            <td>@Html.DisplayFor(model => model.UserName)</td>
+                        </tr>
+                        <tr>
+                            <td>Roles</td>
+                            @if (ViewBag.RoleNames.Count == 0)
+                            {
+                                <td>This user is not in any roles</td>
+                            }
+                            else
+                            {
+                                <td>
+                                    @foreach (var item in ViewBag.RoleNames)
+                                    {
+                                        @item <br />
+                                    }
+                                </td>
+                            }
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+        </div>
+        <div class="clearfix"></div>
+        <br />
+        @Html.ActionLink("Back to Users", "Index")
+    </div>
+</div>
+
+
+

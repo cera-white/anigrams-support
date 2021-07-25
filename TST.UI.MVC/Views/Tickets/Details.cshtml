@@ -1,0 +1,159 @@
+﻿@model TST.DATA.EF.TSTTicket
+
+@{
+    ViewBag.Title = "Ticket Details";
+}
+
+<div class="buttons-main">
+    <div class="progressbar-heading btn-main-heading">
+        @if (User.IsInRole("Tech") || User.IsInRole("Admin"))
+        {
+            <div class="pull-right">
+                <br />
+                <a href="@Url.Action("Edit", "Tickets", new { @id = Model.TicketID })" class="btn btn-primary">Edit Ticket</a>
+
+                @if (Model.ResolutionID == null)
+                {
+                    <a href="@Url.Action("Create", "Resolutions", new { @id = Model.TicketID })" class="btn btn-primary">Add Resolution</a>
+                }
+                else
+                {
+                    <a href="@Url.Action("Edit", "Resolutions", new { @id = Model.ResolutionID })" class="btn btn-primary">Edit Resolution</a>
+                }
+
+            </div>
+        }
+
+        <h2>Ticket Details</h2>
+    </div>
+    <div class="btn-effcts panel-widget inbox-details-body">
+        <div class="button-heading">
+            <h4>#@Html.DisplayFor(model => model.TicketID): @Html.DisplayFor(model => model.Subject)</h4>
+            <p>in <a href="@Url.Action("Details", "Projects", new { @id = Model.TSTProject.ProjectID })">@Html.DisplayFor(model => model.TSTProject.Name)</a></p>
+        </div>
+        <br />
+        <div style="font-size:1.1em;">
+            <p>@Html.DisplayFor(model => model.Description)</p>
+        </div>
+        <br /><br />
+        <p class="tagline" style="font-style:italic"><i class="fa fa-pencil-square-o"></i> Submitted by <a href="@Url.Action("Details", "Users", new { @id = Model.TSTUser.TSTUserID })">@Html.DisplayFor(model => model.TSTUser.TSTUserPreference.DisplayName)</a> on @Html.DisplayFor(model => model.DateSubmitted)</p>
+
+        <hr />
+        <div class="pull-right" style="text-align:right;margin-right:1%;">
+            <p class="tagline classification">
+                Classification:
+                @if (Model.TSTTicketClassification.Name == "Fatal Error")
+                {
+                    <a href="@Url.Action("Index", "TicketClassifications")" class="label label-danger">@Html.DisplayFor(model => model.TSTTicketClassification.Name)</a>
+                }
+                else if (Model.TSTTicketClassification.Name == "Error" || Model.TSTTicketClassification.Name == "Glitch")
+                {
+                    <a href="@Url.Action("Index", "TicketClassifications")" class="label label-warning">@Html.DisplayFor(model => model.TSTTicketClassification.Name)</a>
+                }
+                else
+                {
+                    <a href="@Url.Action("Index", "TicketClassifications")" class="label label-success">@Html.DisplayFor(model => model.TSTTicketClassification.Name)</a>
+                }
+            </p>
+            <p class="tagline">Status: <a href="@Url.Action("Index", "TicketStatuses")">@Html.DisplayFor(model => model.TSTTicketStatus.Name)</a></p>
+        </div>
+        <p class="tagline"><i class="fa fa-tags"></i> @Html.DisplayFor(model => model.Tags)</p>
+        @if (Model.Attachment1 != null)
+            {
+            <p class="tagline">
+                <i class="fa fa-paperclip"></i> <a href="~/Content/attachments/@Model.Attachment1" target="_blank">@Html.DisplayFor(model => model.Attachment1)</a>
+                @if (Model.Attachment2 != null)
+                {
+                    <i class="fa fa-paperclip"></i> <a href="~/Content/attachments/@Model.Attachment2" target="_blank">@Html.DisplayFor(model => model.Attachment2)</a>
+                }
+            </p>
+        }
+        else
+        {
+            <p class="tagline"><i class="fa fa-paperclip"></i> No files attached</p>
+        }
+        <div class="clearfix"></div>
+    </div>
+
+    @if (Model.ResolutionID != null)
+    {
+        <div class="btn-effcts panel-widget inbox-details-body">
+            <div class="button-heading">
+                <h4>Technician's Notes</h4>
+            </div>
+            <br />
+            <div style="font-size:1.1em;">
+                <p>@Html.Raw(Model.TSTResolution.Problem)</p>
+                <br />
+                <p>@Html.Raw(Model.TSTResolution.Resolution)</p>
+            </div>
+            <br /><br />
+            <p class="tagline" style="font-style:italic"><i class="fa fa-pencil-square-o"></i> Resolved by <a href="@Url.Action("Details", "Users", new { @id = Model.TSTUser1.TSTUserID })">@Html.DisplayFor(model => model.TSTUser1.FullName)</a> on @Html.DisplayFor(model => model.DateResolved)</p>
+            <hr />
+
+            @if (Model.TSTResolution.Attachment != null)
+            {
+                <p class="tagline">
+                    <i class="fa fa-paperclip"></i> <a href="~/Content/attachments/@Model.TSTResolution.Attachment" target="_blank">@Model.TSTResolution.Attachment</a>
+</p>
+            }
+            else
+            {
+                <p class="tagline"><i class="fa fa-paperclip"></i> No files attached</p>
+            }
+            <div class="clearfix"></div>
+        </div>
+    }
+
+    <div class="btn-effcts panel-widget inbox-details-body">
+        <div class="button-heading">
+            <h4>Comments</h4>
+            <hr />
+        </div>
+        <div id="notes">
+            @*display current notes*@
+            @foreach (var note in Model.TSTComments)
+            {
+                <div class="col-md-1">
+                    <div class="round">
+                        <img src="~/images/users/@note.TSTUser.Image" width="50" />
+                    </div>
+                </div>
+                <div class="col-md-11">
+                    <p>@note.Comment</p><br />
+                    <p class="tagline" style="font-style:italic">Posted by <a href="@Url.Action("Details", "Users", new { @id = note.TSTUser.TSTUserID })">@note.TSTUser.TSTUserPreference.DisplayName</a> on @string.Format("{0:d}", note.DatePosted)</p>
+                </div>
+                <div class="clearfix"></div>
+                <hr />
+            }
+        </div>
+        @*add text area and button to post new comment*@
+            <p>Add New Comment <textarea id="noteText"></textarea></p>
+            <input type="submit" id="buttonNote" value="Add Comment" class="btn btn-primary"/>
+
+        <script>
+            $(function () {
+                //click event for button
+                $("#buttonNote").click(function () {
+                    //get the note text
+                    var note = $("#noteText").val();
+
+                    $.ajax({
+                        url: "/Tickets/AddComment?ticketID=@Model.TicketID&comment=" + note,
+                        success: function (data) {
+                            //display the add note at the bottom of the existing notes
+                            $("#notes").append('<div class="col-md-1"><div class="round"><img src="/images/users/' + data.UserImage + 
+                                '" width="50"/></div></div><div class="col-md-11"><p>' + data.Comment + '</p><br /><p class="tagline" style="font-style:italic">Posted by ' + data.User +
+                                '</a> on ' + data.Date + '</p></div><div class="clearfix"></div><hr />');
+                            //clear the notes box
+                            $("#noteText").val('');
+                        }
+                    });
+                });
+            });
+        </script>
+    </div>
+
+    <br />
+    <a href="@Url.Action("Index", "Tickets")">Back to Tickets</a>
+</div>
